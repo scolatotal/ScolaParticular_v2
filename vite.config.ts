@@ -1,5 +1,5 @@
 import { sites } from '@openai/sites-vite-plugin';
-import tailwindcss from '@tailwindcss/postcss';
+import tailwindcss from '@tailwindcss/vite';
 import vinext from 'vinext';
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -61,10 +61,9 @@ export default defineConfig(async () => {
       ];
 
   return {
-    css: { postcss: { plugins: [tailwindcss()] } },
     server: isCodexSeatbeltSandbox
       ? { watch: { useFsEvents: false, usePolling: true } }
       : undefined,
-    plugins: [vinext(), ...platformPlugins],
+    plugins: [tailwindcss(), vinext(), ...platformPlugins],
   };
 });
