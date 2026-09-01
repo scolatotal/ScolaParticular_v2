@@ -1,0 +1,1109 @@
+{
+  "schools": {
+    "label": "Datos do centro",
+    "singular": "Centro",
+    "titleField": "name",
+    "fields": [
+      {
+        "name": "name",
+        "label": "Nome do centro",
+        "kind": "text",
+        "required": true
+      },
+      {
+        "name": "code",
+        "label": "Código do centro",
+        "kind": "text"
+      },
+      {
+        "name": "cif",
+        "label": "CIF",
+        "kind": "text"
+      },
+      {
+        "name": "school_type",
+        "label": "Tipo de centro",
+        "kind": "select",
+        "options": [
+          "CEIP",
+          "CEP",
+          "EEI",
+          "CRA",
+          "CPI",
+          "IES",
+          "CIFP",
+          "Outro"
+        ],
+        "default": "CEIP",
+        "required": true
+      },
+      {
+        "name": "address",
+        "label": "Enderezo",
+        "kind": "text"
+      },
+      {
+        "name": "locality",
+        "label": "Localidade",
+        "kind": "text"
+      },
+      {
+        "name": "municipality",
+        "label": "Concello",
+        "kind": "text"
+      },
+      {
+        "name": "province",
+        "label": "Provincia",
+        "kind": "text"
+      },
+      {
+        "name": "postal_code",
+        "label": "Código postal",
+        "kind": "text"
+      },
+      {
+        "name": "phone",
+        "label": "Teléfono",
+        "kind": "tel"
+      },
+      {
+        "name": "email",
+        "label": "Correo electrónico",
+        "kind": "email"
+      },
+      {
+        "name": "website",
+        "label": "Web",
+        "kind": "url"
+      }
+    ]
+  },
+  "profiles": {
+    "label": "Perfil docente",
+    "singular": "Perfil",
+    "titleField": "display_name",
+    "fields": [
+      {
+        "name": "first_name",
+        "label": "Nome",
+        "kind": "text",
+        "required": true
+      },
+      {
+        "name": "last_name",
+        "label": "Apelidos",
+        "kind": "text"
+      },
+      {
+        "name": "display_name",
+        "label": "Nome visible",
+        "kind": "text",
+        "required": true
+      },
+      {
+        "name": "phone",
+        "label": "Teléfono",
+        "kind": "tel"
+      },
+      {
+        "name": "school_id",
+        "label": "Centro",
+        "kind": "reference",
+        "ref": "schools",
+        "required": false
+      },
+      {
+        "name": "academic_year",
+        "label": "Curso académico",
+        "kind": "text",
+        "required": true,
+        "default": "2026/27"
+      },
+      {
+        "name": "avatar_url",
+        "label": "Avatar",
+        "kind": "file",
+        "bucket": "avatars"
+      }
+    ]
+  },
+  "groups": {
+    "label": "Grupos",
+    "singular": "Grupo",
+    "titleField": "name",
+    "fields": [
+      {
+        "name": "name",
+        "label": "Nome do grupo",
+        "kind": "text",
+        "required": true
+      },
+      {
+        "name": "stage",
+        "label": "Etapa",
+        "kind": "select",
+        "options": [
+          "Infantil",
+          "Primaria",
+          "ESO",
+          "Bacharelato",
+          "FP",
+          "Outra"
+        ],
+        "default": "Primaria",
+        "required": true
+      },
+      {
+        "name": "grade",
+        "label": "Curso",
+        "kind": "text"
+      },
+      {
+        "name": "letter",
+        "label": "Letra",
+        "kind": "text"
+      },
+      {
+        "name": "academic_year",
+        "label": "Curso académico",
+        "kind": "text",
+        "required": true,
+        "default": "2026/27"
+      },
+      {
+        "name": "notes",
+        "label": "Observacións",
+        "kind": "textarea"
+      },
+      {
+        "name": "archived",
+        "label": "Arquivado",
+        "kind": "checkbox"
+      }
+    ]
+  },
+  "subjects": {
+    "label": "Materias",
+    "singular": "Materia",
+    "titleField": "name",
+    "fields": [
+      {
+        "name": "name",
+        "label": "Nome da materia",
+        "kind": "text",
+        "required": true
+      },
+      {
+        "name": "color",
+        "label": "Cor",
+        "kind": "color",
+        "default": "#0070c0"
+      }
+    ]
+  },
+  "students": {
+    "label": "Alumnado",
+    "singular": "Alumno/a",
+    "titleField": "first_name",
+    "fields": [
+      {
+        "name": "first_name",
+        "label": "Nome",
+        "kind": "text",
+        "required": true
+      },
+      {
+        "name": "last_name",
+        "label": "Apelidos",
+        "kind": "text",
+        "required": true
+      },
+      {
+        "name": "group_id",
+        "label": "Grupo",
+        "kind": "reference",
+        "ref": "groups",
+        "required": true
+      },
+      {
+        "name": "birth_date",
+        "label": "Data de nacemento",
+        "kind": "date"
+      },
+      {
+        "name": "phone",
+        "label": "Teléfono principal",
+        "kind": "tel"
+      },
+      {
+        "name": "emergency_phone",
+        "label": "Teléfono de urxencia",
+        "kind": "tel"
+      },
+      {
+        "name": "notes",
+        "label": "Observacións",
+        "kind": "textarea"
+      },
+      {
+        "name": "relevant_info",
+        "label": "Información relevante",
+        "kind": "textarea"
+      },
+      {
+        "name": "photo_path",
+        "label": "Fotografía",
+        "kind": "file",
+        "bucket": "student-photos"
+      }
+    ]
+  },
+  "student_contacts": {
+    "label": "Contactos familiares",
+    "singular": "Contacto",
+    "titleField": "name",
+    "fields": [
+      {
+        "name": "student_id",
+        "label": "Alumno/a",
+        "kind": "reference",
+        "ref": "students",
+        "required": true
+      },
+      {
+        "name": "relationship",
+        "label": "Relación",
+        "kind": "select",
+        "options": [
+          "Nai",
+          "Pai",
+          "Outro contacto"
+        ],
+        "default": "Nai",
+        "required": true
+      },
+      {
+        "name": "name",
+        "label": "Nome",
+        "kind": "text",
+        "required": true
+      },
+      {
+        "name": "phone",
+        "label": "Teléfono",
+        "kind": "tel"
+      },
+      {
+        "name": "email",
+        "label": "Correo electrónico",
+        "kind": "email"
+      },
+      {
+        "name": "other_relationship",
+        "label": "Outra relación",
+        "kind": "text"
+      }
+    ]
+  },
+  "student_health_alerts": {
+    "label": "Alerxias e saúde",
+    "singular": "Alerta de saúde",
+    "titleField": "description",
+    "fields": [
+      {
+        "name": "student_id",
+        "label": "Alumno/a",
+        "kind": "reference",
+        "ref": "students",
+        "required": true
+      },
+      {
+        "name": "type",
+        "label": "Tipo de alerta",
+        "kind": "select",
+        "options": [
+          "Alimentaria",
+          "Medicamento",
+          "Ambiental",
+          "Outra"
+        ],
+        "default": "Alimentaria",
+        "required": true
+      },
+      {
+        "name": "description",
+        "label": "Descrición",
+        "kind": "textarea",
+        "required": true
+      },
+      {
+        "name": "severity",
+        "label": "Gravidade",
+        "kind": "select",
+        "options": [
+          "Baixa",
+          "Media",
+          "Alta"
+        ],
+        "default": "Media",
+        "required": true
+      },
+      {
+        "name": "action",
+        "label": "Actuación recomendada",
+        "kind": "textarea"
+      },
+      {
+        "name": "notes",
+        "label": "Observacións",
+        "kind": "textarea"
+      }
+    ]
+  },
+  "teacher_schedules": {
+    "label": "Meu horario",
+    "singular": "Sesión",
+    "titleField": "subject_id",
+    "fields": [
+      {
+        "name": "weekday",
+        "label": "Día",
+        "kind": "weekday",
+        "required": true,
+        "default": 1
+      },
+      {
+        "name": "start_time",
+        "label": "Hora de inicio",
+        "kind": "time",
+        "required": true
+      },
+      {
+        "name": "end_time",
+        "label": "Hora de fin",
+        "kind": "time",
+        "required": true
+      },
+      {
+        "name": "subject_id",
+        "label": "Materia",
+        "kind": "reference",
+        "ref": "subjects",
+        "required": true
+      },
+      {
+        "name": "group_id",
+        "label": "Grupo",
+        "kind": "reference",
+        "ref": "groups",
+        "required": true
+      },
+      {
+        "name": "room",
+        "label": "Aula / espazo",
+        "kind": "text"
+      },
+      {
+        "name": "notes",
+        "label": "Observacións",
+        "kind": "textarea"
+      },
+      {
+        "name": "academic_year",
+        "label": "Curso académico",
+        "kind": "text",
+        "required": true,
+        "default": "2026/27"
+      }
+    ]
+  },
+  "group_schedules": {
+    "label": "Horario do alumnado",
+    "singular": "Sesión do grupo",
+    "titleField": "subject_id",
+    "fields": [
+      {
+        "name": "weekday",
+        "label": "Día",
+        "kind": "weekday",
+        "required": true,
+        "default": 1
+      },
+      {
+        "name": "start_time",
+        "label": "Hora de inicio",
+        "kind": "time",
+        "required": true
+      },
+      {
+        "name": "end_time",
+        "label": "Hora de fin",
+        "kind": "time",
+        "required": true
+      },
+      {
+        "name": "subject_id",
+        "label": "Materia",
+        "kind": "reference",
+        "ref": "subjects",
+        "required": true
+      },
+      {
+        "name": "group_id",
+        "label": "Grupo",
+        "kind": "reference",
+        "ref": "groups",
+        "required": true
+      },
+      {
+        "name": "teacher",
+        "label": "Docente",
+        "kind": "text"
+      },
+      {
+        "name": "room",
+        "label": "Espazo",
+        "kind": "text"
+      },
+      {
+        "name": "notes",
+        "label": "Observacións",
+        "kind": "textarea"
+      },
+      {
+        "name": "academic_year",
+        "label": "Curso académico",
+        "kind": "text",
+        "required": true,
+        "default": "2026/27"
+      }
+    ]
+  },
+  "attendance": {
+    "label": "Asistencia",
+    "singular": "Rexistro de asistencia",
+    "titleField": "date",
+    "fields": [
+      {
+        "name": "student_id",
+        "label": "Alumno/a",
+        "kind": "reference",
+        "ref": "students",
+        "required": true
+      },
+      {
+        "name": "date",
+        "label": "Data",
+        "kind": "date",
+        "required": true
+      },
+      {
+        "name": "status",
+        "label": "Estado",
+        "kind": "select",
+        "options": [
+          "Presente",
+          "Falta",
+          "Retraso",
+          "Xustificada"
+        ],
+        "default": "Presente",
+        "required": true
+      },
+      {
+        "name": "notes",
+        "label": "Observacións",
+        "kind": "textarea"
+      }
+    ]
+  },
+  "calendar_events": {
+    "label": "Eventos",
+    "singular": "Evento",
+    "titleField": "title",
+    "fields": [
+      {
+        "name": "title",
+        "label": "Título",
+        "kind": "text",
+        "required": true
+      },
+      {
+        "name": "description",
+        "label": "Descrición",
+        "kind": "textarea"
+      },
+      {
+        "name": "starts_on",
+        "label": "Data de inicio",
+        "kind": "date",
+        "required": true
+      },
+      {
+        "name": "ends_on",
+        "label": "Data de fin",
+        "kind": "date",
+        "required": true
+      },
+      {
+        "name": "start_time",
+        "label": "Hora de inicio",
+        "kind": "time"
+      },
+      {
+        "name": "end_time",
+        "label": "Hora de fin",
+        "kind": "time"
+      },
+      {
+        "name": "all_day",
+        "label": "Todo o día",
+        "kind": "checkbox",
+        "default": true
+      },
+      {
+        "name": "type",
+        "label": "Tipo",
+        "kind": "select",
+        "options": [
+          "Clase",
+          "Reunión",
+          "Titoría",
+          "Avaliación",
+          "Exame",
+          "Actividade",
+          "Recordatorio",
+          "Conmemoración",
+          "Festivo",
+          "Non lectivo",
+          "Evento persoal"
+        ],
+        "default": "Recordatorio",
+        "required": true
+      },
+      {
+        "name": "group_id",
+        "label": "Grupo",
+        "kind": "reference",
+        "ref": "groups",
+        "required": false
+      },
+      {
+        "name": "student_id",
+        "label": "Alumno/a",
+        "kind": "reference",
+        "ref": "students",
+        "required": false
+      },
+      {
+        "name": "location",
+        "label": "Lugar",
+        "kind": "text"
+      },
+      {
+        "name": "notes",
+        "label": "Observacións",
+        "kind": "textarea"
+      },
+      {
+        "name": "recurrence",
+        "label": "Repetición",
+        "kind": "select",
+        "options": [
+          "Non se repite",
+          "Diaria",
+          "Semanal",
+          "Mensual"
+        ],
+        "default": "Non se repite",
+        "required": true
+      },
+      {
+        "name": "repeat_until",
+        "label": "Repetir ata",
+        "kind": "date"
+      },
+      {
+        "name": "reminder",
+        "label": "Recordatorio na axenda",
+        "kind": "select",
+        "options": [
+          "Sen aviso",
+          "Ao comezar",
+          "15 minutos antes",
+          "1 día antes"
+        ],
+        "default": "Sen aviso",
+        "required": true
+      }
+    ]
+  },
+  "school_calendar_events": {
+    "label": "Calendario escolar",
+    "singular": "Data oficial",
+    "titleField": "name",
+    "readonly": true,
+    "fields": [
+      {
+        "name": "name",
+        "label": "Nome",
+        "kind": "text",
+        "required": true
+      },
+      {
+        "name": "starts_on",
+        "label": "Inicio",
+        "kind": "date",
+        "required": true
+      },
+      {
+        "name": "ends_on",
+        "label": "Fin",
+        "kind": "date",
+        "required": true
+      },
+      {
+        "name": "is_non_teaching",
+        "label": "Non lectivo",
+        "kind": "checkbox"
+      },
+      {
+        "name": "description",
+        "label": "Descrición",
+        "kind": "textarea"
+      },
+      {
+        "name": "academic_year",
+        "label": "Curso académico",
+        "kind": "text",
+        "required": true,
+        "default": "2026/27"
+      },
+      {
+        "name": "source_url",
+        "label": "Fonte",
+        "kind": "url"
+      }
+    ]
+  },
+  "school_commemorations": {
+    "label": "Conmemoracións",
+    "singular": "Conmemoración",
+    "titleField": "name",
+    "readonly": true,
+    "fields": [
+      {
+        "name": "name",
+        "label": "Nome",
+        "kind": "text",
+        "required": true
+      },
+      {
+        "name": "starts_on",
+        "label": "Inicio",
+        "kind": "date",
+        "required": true
+      },
+      {
+        "name": "ends_on",
+        "label": "Fin",
+        "kind": "date",
+        "required": true
+      },
+      {
+        "name": "description",
+        "label": "Descrición",
+        "kind": "textarea"
+      },
+      {
+        "name": "academic_year",
+        "label": "Curso académico",
+        "kind": "text",
+        "required": true,
+        "default": "2026/27"
+      },
+      {
+        "name": "source_url",
+        "label": "Fonte",
+        "kind": "url"
+      }
+    ]
+  },
+  "diary_entries": {
+    "label": "Diario docente",
+    "singular": "Entrada",
+    "titleField": "title",
+    "fields": [
+      {
+        "name": "title",
+        "label": "Título",
+        "kind": "text",
+        "required": true
+      },
+      {
+        "name": "date",
+        "label": "Data",
+        "kind": "date",
+        "required": true
+      },
+      {
+        "name": "time",
+        "label": "Hora",
+        "kind": "time"
+      },
+      {
+        "name": "type",
+        "label": "Tipo",
+        "kind": "select",
+        "options": [
+          "Nota",
+          "Exercicio",
+          "Actividade",
+          "Sesión",
+          "Avaliación",
+          "Reunión",
+          "Incidencia",
+          "Recordatorio",
+          "Idea",
+          "Outro"
+        ],
+        "default": "Nota",
+        "required": true
+      },
+      {
+        "name": "group_id",
+        "label": "Grupo",
+        "kind": "reference",
+        "ref": "groups",
+        "required": false
+      },
+      {
+        "name": "subject_id",
+        "label": "Materia",
+        "kind": "reference",
+        "ref": "subjects",
+        "required": false
+      },
+      {
+        "name": "student_id",
+        "label": "Alumno/a",
+        "kind": "reference",
+        "ref": "students",
+        "required": false
+      },
+      {
+        "name": "content",
+        "label": "Contido",
+        "kind": "markdown"
+      },
+      {
+        "name": "evaluation",
+        "label": "Avaliación",
+        "kind": "select",
+        "options": [
+          "Non procede",
+          "Inicial",
+          "1ª",
+          "2ª",
+          "Final",
+          "Outra"
+        ],
+        "default": "Non procede",
+        "required": true
+      },
+      {
+        "name": "attendees",
+        "label": "Asistentes",
+        "kind": "textarea"
+      },
+      {
+        "name": "agreements",
+        "label": "Acordos",
+        "kind": "textarea"
+      }
+    ]
+  },
+  "diary_tags": {
+    "label": "Etiquetas",
+    "singular": "Etiqueta",
+    "titleField": "name",
+    "fields": [
+      {
+        "name": "name",
+        "label": "Nome",
+        "kind": "text",
+        "required": true
+      }
+    ]
+  },
+  "diary_entry_tags": {
+    "label": "Etiquetas da entrada",
+    "singular": "Etiqueta da entrada",
+    "titleField": "tag_id",
+    "fields": [
+      {
+        "name": "entry_id",
+        "label": "Entrada",
+        "kind": "reference",
+        "ref": "diary_entries",
+        "required": true
+      },
+      {
+        "name": "tag_id",
+        "label": "Etiqueta",
+        "kind": "reference",
+        "ref": "diary_tags",
+        "required": true
+      }
+    ]
+  },
+  "evaluation_observations": {
+    "label": "Observacións de avaliación",
+    "singular": "Observación",
+    "titleField": "content",
+    "fields": [
+      {
+        "name": "entry_id",
+        "label": "Sesión de avaliación",
+        "kind": "reference",
+        "ref": "diary_entries",
+        "required": true
+      },
+      {
+        "name": "student_id",
+        "label": "Alumno/a",
+        "kind": "reference",
+        "ref": "students",
+        "required": true
+      },
+      {
+        "name": "content",
+        "label": "Observacións",
+        "kind": "textarea",
+        "required": true
+      }
+    ]
+  },
+  "diary_attachments": {
+    "label": "Adxuntos",
+    "singular": "Adxunto",
+    "titleField": "name",
+    "fields": [
+      {
+        "name": "entry_id",
+        "label": "Entrada",
+        "kind": "reference",
+        "ref": "diary_entries",
+        "required": true
+      },
+      {
+        "name": "name",
+        "label": "Nome",
+        "kind": "text",
+        "required": true
+      },
+      {
+        "name": "path",
+        "label": "Ficheiro",
+        "kind": "file",
+        "required": true,
+        "bucket": "diary-attachments"
+      }
+    ]
+  },
+  "tutoring_sessions": {
+    "label": "Titorías",
+    "singular": "Titoría",
+    "titleField": "reason",
+    "fields": [
+      {
+        "name": "student_id",
+        "label": "Alumno/a",
+        "kind": "reference",
+        "ref": "students",
+        "required": true
+      },
+      {
+        "name": "group_id",
+        "label": "Grupo",
+        "kind": "reference",
+        "ref": "groups",
+        "required": false
+      },
+      {
+        "name": "date",
+        "label": "Data",
+        "kind": "date",
+        "required": true
+      },
+      {
+        "name": "start_time",
+        "label": "Hora de inicio",
+        "kind": "time"
+      },
+      {
+        "name": "end_time",
+        "label": "Hora de fin",
+        "kind": "time"
+      },
+      {
+        "name": "attendees",
+        "label": "Persoas asistentes",
+        "kind": "textarea"
+      },
+      {
+        "name": "type",
+        "label": "Tipo",
+        "kind": "select",
+        "options": [
+          "Presencial",
+          "Telefónica",
+          "Videoconferencia",
+          "Outra"
+        ],
+        "default": "Presencial",
+        "required": true
+      },
+      {
+        "name": "reason",
+        "label": "Motivo",
+        "kind": "text",
+        "required": true
+      },
+      {
+        "name": "topics",
+        "label": "Temas tratados",
+        "kind": "textarea"
+      },
+      {
+        "name": "agreements",
+        "label": "Acordos",
+        "kind": "textarea"
+      },
+      {
+        "name": "follow_up",
+        "label": "Seguimento",
+        "kind": "textarea"
+      },
+      {
+        "name": "next_meeting",
+        "label": "Próxima reunión",
+        "kind": "date"
+      },
+      {
+        "name": "private_notes",
+        "label": "Notas privadas",
+        "kind": "textarea"
+      },
+      {
+        "name": "status",
+        "label": "Estado",
+        "kind": "select",
+        "options": [
+          "Programada",
+          "Realizada",
+          "Cancelada"
+        ],
+        "default": "Programada",
+        "required": true
+      }
+    ]
+  },
+  "meetings": {
+    "label": "Reunións",
+    "singular": "Reunión",
+    "titleField": "title",
+    "fields": [
+      {
+        "name": "title",
+        "label": "Título",
+        "kind": "text",
+        "required": true
+      },
+      {
+        "name": "type",
+        "label": "Tipo",
+        "kind": "select",
+        "options": [
+          "Claustro",
+          "CCP",
+          "Equipo docente",
+          "Ciclo",
+          "Departamento",
+          "Coordinación",
+          "Avaliación",
+          "Familias",
+          "Formación",
+          "Outra"
+        ],
+        "default": "Claustro",
+        "required": true
+      },
+      {
+        "name": "date",
+        "label": "Data",
+        "kind": "date",
+        "required": true
+      },
+      {
+        "name": "start_time",
+        "label": "Hora de inicio",
+        "kind": "time"
+      },
+      {
+        "name": "end_time",
+        "label": "Hora de fin",
+        "kind": "time"
+      },
+      {
+        "name": "location",
+        "label": "Lugar",
+        "kind": "text"
+      },
+      {
+        "name": "participants",
+        "label": "Participantes",
+        "kind": "textarea"
+      },
+      {
+        "name": "agenda",
+        "label": "Orde do día",
+        "kind": "textarea"
+      },
+      {
+        "name": "notes",
+        "label": "Observacións",
+        "kind": "textarea"
+      },
+      {
+        "name": "agreements",
+        "label": "Acordos",
+        "kind": "textarea"
+      },
+      {
+        "name": "tasks",
+        "label": "Tarefas pendentes",
+        "kind": "textarea"
+      },
+      {
+        "name": "status",
+        "label": "Estado",
+        "kind": "select",
+        "options": [
+          "Programada",
+          "Realizada",
+          "Cancelada"
+        ],
+        "default": "Programada",
+        "required": true
+      },
+      {
+        "name": "show_in_agenda",
+        "label": "Mostrar na axenda",
+        "kind": "checkbox",
+        "default": true
+      }
+    ]
+  }
+}

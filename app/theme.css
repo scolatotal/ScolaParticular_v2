@@ -1,0 +1,1487 @@
+/* Shared Scola visual language, matched to the local ScolaTotal reference.
+   Keep layout-specific rules in workspace.css and calendar.css. */
+:root {
+  --scola-blue: #0070c0;
+  --scola-blue-dark: #005795;
+  --scola-pastel: #e1f0fa;
+  --scola-canvas: #f3f4f6;
+  --scola-surface: #fff;
+  --scola-ink: #111827;
+  --scola-muted: #6b7280;
+  --scola-line: #e5e7eb;
+  --scola-field-border: #8bb7d7;
+  --scola-shadow: 0 1px 2px rgb(0 0 0 / 5%);
+  --scola-hover-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 8%), 0 4px 6px -4px rgb(0 0 0 / 7%);
+  --scola-focus: 0 0 0 3px rgb(0 112 192 / 18%);
+  --scola-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --primary: var(--scola-blue);
+  --primary-foreground: #fff;
+  --secondary: var(--scola-pastel);
+  --foreground: var(--scola-ink);
+  --muted: #f9fafb;
+  --muted-foreground: var(--scola-muted);
+  --border: var(--scola-line);
+  --radius: 12px;
+}
+
+body {
+  font-family:
+    ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  background: var(--scola-canvas);
+  color: var(--scola-ink);
+  line-height: 1.5;
+  font-feature-settings:
+    'rlig' 1,
+    'calt' 1;
+}
+::selection {
+  background: var(--scola-pastel);
+  color: var(--scola-blue-dark);
+}
+:where(button, a, input, select, textarea) {
+  transition:
+    background-color var(--scola-transition),
+    border-color var(--scola-transition),
+    color var(--scola-transition),
+    box-shadow var(--scola-transition),
+    transform var(--scola-transition);
+}
+:where(button, a):focus-visible {
+  outline: 2px solid var(--scola-blue);
+  outline-offset: 3px;
+}
+
+/* Navigation and page headers. */
+.app-shell {
+  --workspace-bg: var(--scola-canvas);
+  --dotted-border: var(--scola-blue);
+  --sidebar-width: 264px;
+}
+.sidebar {
+  border-color: #eef0f3;
+}
+.sidebar-brand {
+  min-height: 108px;
+  padding-block: 26px;
+}
+.profile-block {
+  margin: 0 20px 16px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #f9fafb;
+}
+.profile-block strong {
+  font-weight: 700;
+}
+.profile-block p {
+  font-size: 11px;
+}
+.avatar {
+  background: var(--scola-pastel);
+  color: var(--scola-blue);
+  border-color: #dceaf4;
+}
+.edit-profile-link {
+  border: 1px dashed var(--scola-blue);
+  border-radius: 12px;
+  min-height: 42px;
+  font-size: 13px;
+}
+.sidebar-search {
+  color: var(--scola-muted);
+}
+.sidebar > nav {
+  gap: 6px;
+  padding: 20px 16px;
+}
+.nav-link {
+  font-size: 14px;
+  border-radius: 12px;
+  min-height: 44px;
+  padding: 12px 16px;
+  gap: 12px;
+  color: #4b5563;
+}
+.nav-link > svg:first-child {
+  color: #669ac0;
+}
+.nav-link.active {
+  background: var(--scola-blue);
+  color: #fff;
+  box-shadow: var(--scola-shadow);
+}
+.nav-link.active > svg {
+  color: #fff;
+}
+.nav-active-arrow {
+  margin-left: auto;
+  opacity: 0.6;
+}
+.sidebar-footer {
+  padding: 16px 20px;
+}
+.sidebar-footer [data-slot='button'] {
+  width: 100%;
+  justify-content: flex-start;
+}
+.main-content {
+  padding: 28px 32px;
+}
+.page-heading,
+.cal-page-header {
+  background: var(--scola-surface);
+  border: 1px dashed var(--scola-blue);
+  border-radius: 16px;
+  padding: 24px;
+  min-height: 96px;
+  margin-bottom: 24px;
+  gap: 24px;
+}
+.cal-page-header {
+  margin-bottom: 0;
+}
+.page-heading-main {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+.page-heading-copy {
+  min-width: 0;
+}
+.page-heading-icon,
+.cal-page-title > span {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  color: var(--scola-blue);
+  background: #f2f7fb;
+  border: 1px solid #e2edf5;
+  border-radius: 12px;
+  box-shadow: var(--scola-shadow);
+}
+.page-heading h1,
+.cal-page-title h1 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  line-height: 1.35;
+}
+.page-heading p {
+  font-size: 12px;
+  color: var(--scola-muted);
+  margin-top: 5px;
+}
+.page-heading .eyebrow {
+  display: none;
+}
+.page-heading > .button-row {
+  flex: none;
+  justify-content: flex-end;
+}
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 16px;
+  color: var(--scola-blue);
+  font-size: 13px;
+  min-height: 32px;
+}
+@media (min-width: 1024px) {
+  .app-shell .topbar {
+    display: none;
+  }
+}
+
+/* Buttons: one set of states for every module, including portalled dialogs. */
+[data-slot='button'] {
+  min-height: 38px;
+  height: auto;
+  padding: 9px 14px;
+  gap: 7px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: 500;
+  border: 1px solid transparent;
+  transition:
+    background-color var(--scola-transition),
+    border-color var(--scola-transition),
+    box-shadow var(--scola-transition),
+    transform var(--scola-transition);
+}
+[data-slot='button'][data-variant='default'],
+.primary {
+  background: var(--scola-blue);
+  color: #fff;
+  box-shadow: var(--scola-shadow);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-weight: 500;
+}
+[data-slot='button'][data-variant='outline'] {
+  background: #fff;
+  border-color: var(--scola-line);
+  color: #4b5563;
+  box-shadow: var(--scola-shadow);
+}
+[data-slot='button'][data-variant='ghost'] {
+  background: transparent;
+  color: #6b7280;
+  box-shadow: none;
+}
+[data-slot='button'][data-variant='secondary'] {
+  background: var(--scola-pastel);
+  color: var(--scola-blue);
+}
+[data-slot='button'][data-variant='destructive'] {
+  background: #fff1f2;
+  color: #b4233b;
+  border-color: #fecdd3;
+}
+[data-slot='button'][data-size^='icon'] {
+  width: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  padding: 8px;
+}
+.record-actions [data-slot='button'] {
+  min-width: 32px;
+  min-height: 32px;
+  padding: 7px;
+}
+[data-slot='button']:focus-visible {
+  outline: 2px solid var(--scola-blue);
+  outline-offset: 3px;
+  box-shadow: var(--scola-focus);
+}
+[data-slot='button']:active:not(:disabled),
+.primary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+[data-slot='button']:disabled,
+.primary:disabled {
+  opacity: 0.5;
+  transform: none;
+  box-shadow: none;
+}
+.outline-link,
+.dotted-action,
+.cal-day-add {
+  border-radius: 8px;
+}
+.outline-link,
+.dotted-action {
+  border: 1px dashed var(--scola-blue);
+}
+.button-row {
+  gap: 10px;
+}
+.page-heading [data-slot='button'],
+.cal-create {
+  font-size: 12px;
+}
+
+/* Forms use blue dashed outlines, becoming solid on focus without layout shift. */
+input:not([type='checkbox']):not([type='radio']):not([type='color']),
+select,
+textarea {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px dashed var(--scola-field-border);
+  border-radius: 10px;
+  background: #fff;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 400;
+  box-shadow: var(--scola-shadow);
+}
+input::placeholder,
+textarea::placeholder {
+  color: #9ca3af;
+  opacity: 1;
+}
+input:not([type='checkbox']):not([type='radio']):focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--scola-blue);
+  border-style: solid;
+  box-shadow: var(--scola-focus);
+}
+:is(input, select, textarea)[aria-invalid='true'] {
+  border-color: #b4233b;
+  border-style: solid;
+}
+:is(input, select, textarea)[aria-invalid='true']:focus {
+  box-shadow: 0 0 0 3px rgb(180 35 59 / 15%);
+}
+:is(input, select, textarea):disabled {
+  background: #f3f4f6;
+  color: #6b7280;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+:is(input, textarea)[readonly] {
+  background: #f9fafb;
+}
+input[type='checkbox'],
+input[type='radio'] {
+  accent-color: var(--scola-blue);
+  width: 17px;
+  height: 17px;
+  min-height: 17px;
+  flex: none;
+}
+input[type='checkbox']:focus-visible,
+input[type='radio']:focus-visible {
+  outline: 2px solid var(--scola-blue);
+  outline-offset: 3px;
+}
+input[type='color'] {
+  border: 1px dashed var(--scola-field-border);
+  border-radius: 10px;
+}
+label,
+.form-grid > div > label {
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 500;
+}
+.form-grid,
+.detail-grid {
+  gap: 24px;
+}
+.form-grid > div > label {
+  margin: 0 0 8px 2px;
+}
+.form-actions {
+  border-color: #f0f1f3;
+  padding-top: 24px;
+  gap: 12px;
+}
+.form-actions [data-slot='button'] {
+  border-radius: 10px;
+  min-height: 42px;
+  padding-inline: 24px;
+}
+.search-field input {
+  padding-left: 40px !important;
+}
+.search-field > svg {
+  color: #7d9bb2;
+  pointer-events: none;
+  z-index: 1;
+}
+.file-field {
+  border: 1px dashed var(--scola-field-border);
+  border-radius: 12px;
+  background: #f9fbfd;
+  color: var(--scola-blue);
+}
+.file-field input[type='file'] {
+  border: 0;
+  box-shadow: none;
+  padding: 4px;
+  background: transparent;
+  width: 100%;
+  min-width: 0;
+}
+input[type='file']::file-selector-button {
+  border: 1px solid #d3e5f2;
+  background: var(--scola-pastel);
+  color: var(--scola-blue);
+  padding: 8px 12px;
+  border-radius: 7px;
+  margin-right: 12px;
+  cursor: pointer;
+  font: inherit;
+}
+.editor-toolbar {
+  background: #f9fafb;
+  border-color: var(--scola-line);
+  border-radius: 10px;
+  flex-wrap: wrap;
+}
+.preview {
+  border: 1px dashed var(--scola-field-border);
+  border-radius: 10px;
+  background: #fff;
+}
+.settings-panel {
+  max-width: none;
+  padding: 32px;
+}
+.settings-panel .entity-form {
+  max-width: 1050px;
+  margin-inline: auto;
+}
+
+/* Surfaces and hover states shared by dashboard, records and weekly cards. */
+.panel,
+.collection-panel,
+.cal-surface {
+  background: #fff;
+  border: 1px solid #eef0f3;
+  border-radius: 12px;
+  box-shadow: var(--scola-shadow);
+  min-width: 0;
+}
+.collection-panel {
+  padding: 24px;
+  margin-block: 20px;
+}
+.collection-panel > .collection-top {
+  margin-top: 0;
+}
+.collection-panel .collection-panel,
+.scola-dialog .collection-panel {
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+}
+.panel-heading h2 {
+  color: var(--scola-ink);
+  font-size: 17px;
+  font-weight: 700;
+}
+.panel-heading h2 > svg {
+  box-sizing: content-box;
+  padding: 7px;
+  width: 20px;
+  height: 20px;
+  background: var(--scola-pastel);
+  border-radius: 8px;
+}
+.record-card,
+.group-card,
+.diary-card,
+.student-card,
+.stat-card,
+.quick-grid > a,
+.quick-grid > button,
+.agenda-row,
+.meeting-summary > a,
+.cal-week-day,
+.add-group-card,
+.schedule-day {
+  border: 1px dashed var(--scola-blue);
+  border-radius: 12px;
+  background: #fff;
+  transition:
+    border-color 300ms ease,
+    background-color 300ms ease,
+    box-shadow 300ms ease,
+    transform var(--scola-transition);
+}
+.record-title,
+.group-name {
+  color: #111827;
+  font-weight: 700;
+}
+.record-title:focus-visible,
+.group-name:focus-visible {
+  border-radius: 4px;
+}
+.record-card:focus-within,
+.group-card:focus-within,
+.diary-card:focus-within {
+  border-style: solid;
+  box-shadow: var(--scola-focus);
+}
+.stat-icon,
+.empty-icon {
+  background: var(--scola-pastel);
+  color: var(--scola-blue);
+}
+.welcome {
+  background: var(--scola-blue);
+  border-radius: 12px;
+}
+.quick-grid span {
+  color: #374151;
+}
+.badge,
+.count {
+  border-radius: 999px;
+  font-size: 11px;
+  padding: 4px 9px;
+  font-weight: 500;
+}
+.count {
+  background: var(--scola-pastel);
+  color: var(--scola-blue);
+}
+.empty {
+  background: #fff;
+  border: 1px dashed #d5e1ea;
+  border-radius: 12px;
+  padding: 52px 24px;
+}
+.panel .empty,
+.collection-panel .empty,
+.scola-dialog .empty,
+.cal-surface .empty {
+  border-color: #edf0f3;
+  box-shadow: none;
+}
+.classes-empty {
+  border: 1px dashed #d5e1ea;
+  border-radius: 12px;
+}
+.info-banner,
+.privacy-banner,
+.reminder-strip,
+.info-note {
+  border: 1px solid #d7e8f4;
+  background: #f0f7fc;
+  color: #426b88;
+  border-radius: 10px;
+}
+.info-note {
+  margin-top: 18px;
+  padding: 16px;
+  line-height: 1.7;
+}
+.info-banner > svg,
+.privacy-banner > svg {
+  flex: none;
+}
+.error-box {
+  border: 1px solid #fecdd3;
+  border-radius: 10px;
+}
+.success-box {
+  border: 1px solid #bbf7d0;
+  border-radius: 10px;
+}
+.diary-preview-list > a {
+  border: 1px dashed var(--scola-field-border);
+  border-radius: 10px;
+  background: #fff;
+}
+
+/* Full-width segmented navigation follows the weekly/monthly reference. */
+.tabs {
+  display: flex;
+  gap: 0;
+  padding: 3px;
+  border: 1px solid #eef0f3;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: var(--scola-shadow);
+  margin-block: 20px;
+}
+.tabs button {
+  flex: 1 1 auto;
+  padding: 11px 16px;
+  border: 0;
+  border-radius: 7px;
+  background: #f9fafb;
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 500;
+  min-height: 43px;
+}
+.tabs button.active,
+.segmented button.active {
+  background: var(--scola-blue);
+  color: #fff;
+  box-shadow: var(--scola-shadow);
+}
+.segmented {
+  background: #f9fafb;
+  border-color: #eef0f3;
+  padding: 3px;
+  border-radius: 9px;
+}
+.segmented button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  color: #84909c;
+}
+.cal-view-tabs {
+  background: #f9fafb;
+  border-radius: 10px;
+}
+.cal-view-tabs > button {
+  border-radius: 7px;
+}
+.cal-week-day-header {
+  background: #f9fafb;
+}
+.cal-period-bar h2 {
+  font-weight: 700;
+}
+.cal-filters select {
+  font-size: 12px;
+  padding: 8px 10px;
+  min-height: 38px;
+}
+.cal-main-layout {
+  margin-top: 25px;
+}
+.cal-month {
+  border-color: #e5e7eb;
+}
+.cal-month-head,
+.cal-month-cell.cal-outside {
+  background: #f9fafb;
+}
+.cal-month-cell,
+.cal-month-head {
+  border-color: #eef0f3;
+}
+.cal-month-sidebar {
+  padding-left: 4px;
+}
+.cal-event {
+  border-radius: 7px;
+  transition:
+    box-shadow var(--scola-transition),
+    filter var(--scola-transition);
+}
+.cal-event-compact {
+  border-radius: 4px;
+}
+.cal-event:focus-visible {
+  outline-offset: 2px;
+}
+
+/* Alumnado and diary. No sample records are needed for these empty states. */
+.section-title > h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 700;
+}
+.section-title h2 > span {
+  color: var(--scola-blue);
+  background: var(--scola-pastel);
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+.group-grid {
+  margin-bottom: 28px;
+}
+.group-card {
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.group-symbol {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #f0f7fc;
+  color: var(--scola-blue);
+}
+.group-name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  font-size: 17px;
+  text-align: left;
+}
+.group-card > p {
+  font-size: 12px;
+  color: #6b7280;
+}
+.group-card > span {
+  font-size: 12px;
+  color: var(--scola-blue);
+  margin-top: auto;
+}
+.add-group-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  padding: 24px;
+  gap: 12px;
+  color: var(--scola-blue);
+}
+.add-group-card strong {
+  font-size: 14px;
+  font-weight: 600;
+}
+.add-group-card span {
+  font-size: 12px;
+  color: #7b8794;
+}
+.student-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+}
+.student-card > div:nth-child(2) {
+  min-width: 0;
+  flex: 1;
+}
+.student-card h3 {
+  font-size: 14px;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+.student-card p {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+.student-avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--scola-pastel);
+  color: var(--scola-blue);
+  font-weight: 600;
+}
+.student-avatar.large {
+  width: 76px;
+  height: 76px;
+  font-size: 26px;
+}
+.student-arrow {
+  color: #90aac0;
+  flex: none;
+}
+.student-list {
+  display: grid;
+  gap: 12px;
+}
+.student-list .student-card {
+  padding-block: 14px;
+}
+.health-indicator {
+  color: #b4233b;
+  display: inline-flex;
+}
+.student-info {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.student-info > div:nth-child(2) {
+  flex: 1;
+  min-width: 200px;
+}
+.student-info h3 {
+  font-size: 20px;
+  font-weight: 700;
+}
+.student-info p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6b7280;
+  font-size: 13px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.student-info p > svg {
+  color: var(--scola-blue);
+}
+.filter-bar input.age-filter {
+  width: 90px;
+  flex: 0 1 90px;
+}
+.filter-bar select {
+  width: auto;
+  max-width: 240px;
+}
+.app-shell[data-section='diario'] .main-content > .filter-bar {
+  padding: 20px;
+  border: 1px solid #eef0f3;
+  border-radius: 12px;
+  background: #fff;
+}
+.diary-card {
+  display: flex;
+  flex-direction: column;
+}
+.diary-card .record-card-top > span:last-child,
+.diary-card-footer > span {
+  font-size: 11px;
+  color: #84909c;
+}
+.diary-card-footer {
+  margin-top: auto;
+  padding-top: 20px;
+}
+
+/* Attendance tables and schedule columns receive the same surface treatment. */
+.attendance-controls {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+.attendance-controls > label {
+  flex: 1;
+  min-width: 180px;
+}
+.mini-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  margin-block: 24px;
+}
+.mini-stats > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: #fff;
+  border: 1px dashed var(--scola-blue);
+  border-radius: 12px;
+  padding: 20px;
+}
+.mini-stats strong {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1f2937;
+}
+.mini-stats span {
+  font-size: 12px;
+  color: #6b7280;
+}
+.attendance-list {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.attendance-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px;
+  border-bottom: 1px solid #eef0f3;
+  transition: background var(--scola-transition);
+}
+.attendance-row:last-child {
+  border-bottom: 0;
+}
+.attendance-student {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  min-width: 0;
+}
+.attendance-student strong {
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.status-options {
+  display: flex;
+  gap: 6px;
+  flex: none;
+}
+.status-option {
+  padding: 8px 10px;
+  min-height: 36px;
+  border: 1px solid #e5e7eb;
+  border-radius: 7px;
+  font-size: 11px;
+  color: #6b7280;
+  background: #fff;
+}
+.status-option.selected {
+  border-color: var(--scola-blue);
+  background: var(--scola-pastel);
+  color: var(--scola-blue);
+}
+.status-0.selected {
+  color: #166534;
+  border-color: #86efac;
+  background: #f0fdf4;
+}
+.status-1.selected {
+  color: #b4233b;
+  border-color: #fda4af;
+  background: #fff1f2;
+}
+.status-2.selected {
+  color: #92400e;
+  border-color: #fcd34d;
+  background: #fffbeb;
+}
+.attendance-save {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  border-top: 1px solid #eef0f3;
+  padding-top: 22px;
+  margin-top: 22px;
+}
+.attendance-save > span {
+  font-size: 12px;
+  color: #6b7280;
+}
+.calendar-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+.calendar-toolbar .tabs {
+  flex: 1;
+  margin: 0;
+}
+.calendar-toolbar > select {
+  width: 240px;
+}
+.schedule-week {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+  padding: 24px;
+  border: 1px solid #eef0f3;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: var(--scola-shadow);
+}
+.schedule-day {
+  min-width: 0;
+  min-height: 360px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+}
+.schedule-day > h2 {
+  background: #f9fafb;
+  border-radius: 9px;
+  padding: 16px 8px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #374151;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.schedule-day > h2 > span {
+  display: block;
+  font-size: 10px;
+  color: #8994a0;
+  font-weight: 400;
+  text-transform: none;
+  margin-top: 6px;
+  letter-spacing: 0;
+}
+.schedule-sessions {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 8px;
+  margin-top: 10px;
+}
+.schedule-sessions > .dotted-action {
+  margin-top: auto;
+  border-color: #bed5e5;
+}
+.schedule-card {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  background: var(--scola-blue);
+  color: #fff;
+  border: 1px solid #0000001a;
+  border-radius: 6px;
+  padding: 8px 10px;
+  text-align: left;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+.schedule-card:focus-visible {
+  outline: 2px solid var(--scola-blue);
+  outline-offset: 3px;
+}
+.schedule-time {
+  display: block;
+  color: inherit;
+  font-size: 10px;
+  font-weight: 600;
+}
+.schedule-card .schedule-subject {
+  display: block;
+  font-size: 13px;
+  font-weight: 650;
+  margin: 3px 0 2px;
+}
+.schedule-card .schedule-detail {
+  display: block;
+  font-size: 11px;
+  color: inherit;
+  margin-top: 1px;
+}
+
+/* Dialogs: blue header and blurred overlay, as in reference editing forms. */
+[data-slot='dialog-overlay'] {
+  background: rgb(0 0 0 / 50%);
+  backdrop-filter: blur(4px);
+}
+.scola-dialog {
+  border-radius: 20px;
+  padding: 28px;
+  border: 1px solid rgb(255 255 255 / 20%);
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 25%);
+  gap: 20px;
+}
+.scola-dialog-heading {
+  margin: -28px -28px 0;
+  padding: 24px 60px 24px 28px;
+  background: var(--scola-blue);
+  color: #fff;
+}
+.scola-dialog [data-slot='dialog-title'] {
+  font-size: 19px;
+  font-weight: 600;
+  color: #fff;
+  padding: 0;
+}
+.scola-dialog [data-slot='dialog-description'] {
+  color: #d7ebfa;
+  font-size: 12px;
+  margin-top: 6px;
+}
+.scola-dialog [data-slot='dialog-close'] {
+  top: 18px;
+  right: 16px;
+  border-radius: 50%;
+  color: #fff;
+}
+.scola-dialog [data-slot='dialog-close']:hover {
+  color: #fff;
+  background: rgb(255 255 255 / 15%);
+}
+.scola-dialog [data-slot='dialog-close']:focus-visible {
+  outline-color: #fff;
+}
+.scola-dialog .entity-form {
+  margin-top: 4px;
+}
+.detail-grid > div {
+  padding: 14px;
+  border: 1px dashed var(--scola-field-border);
+  border-radius: 10px;
+}
+.detail-grid dt {
+  font-size: 11px;
+  color: var(--scola-blue);
+}
+.detail-grid dd {
+  color: #374151;
+  font-size: 13px;
+}
+.toast {
+  border-radius: 12px;
+  box-shadow: var(--scola-hover-shadow);
+}
+
+/* Sign-in, registration and recovery share the application palette. */
+.auth-page {
+  background: var(--scola-canvas);
+}
+.auth-story {
+  background: #edf6fc;
+  border-color: #dceaf4;
+}
+.auth-story h1 {
+  color: #111827;
+}
+.auth-form {
+  background: var(--scola-canvas);
+}
+.auth-box {
+  max-width: 450px;
+  padding: 36px;
+  border: 1px dashed var(--scola-blue);
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: var(--scola-shadow);
+}
+.auth-box h2 {
+  font-size: 26px;
+  font-weight: 700;
+}
+.auth-box > p {
+  font-size: 13px;
+}
+.auth-box .primary {
+  min-height: 44px;
+}
+
+@media (hover: hover) {
+  .edit-profile-link:hover {
+    border-style: solid;
+    background: var(--scola-pastel);
+    box-shadow: var(--scola-shadow);
+  }
+  .nav-link:not(.active):hover {
+    color: var(--scola-blue);
+    background: #edf6fc;
+  }
+  .nav-link:not(.active):hover > svg {
+    color: var(--scola-blue);
+  }
+  .page-heading:hover,
+  .cal-page-header:hover {
+    border-style: solid;
+  }
+  [data-slot='button'][data-variant='default']:hover:not(:disabled),
+  .primary:hover:not(:disabled) {
+    background: var(--scola-blue-dark);
+    box-shadow: 0 4px 6px -1px rgb(0 112 192 / 15%);
+  }
+  [data-slot='button'][data-variant='outline']:hover:not(:disabled) {
+    background: #f8fbfe;
+    border-color: var(--scola-field-border);
+    color: var(--scola-blue);
+  }
+  [data-slot='button'][data-variant='ghost']:hover:not(:disabled) {
+    color: var(--scola-blue);
+    background: var(--scola-pastel);
+  }
+  [data-slot='button'][data-variant='secondary']:hover:not(:disabled) {
+    background: #d3e8f8;
+  }
+  [data-slot='button'][data-variant='destructive']:hover:not(:disabled) {
+    background: #ffe4e6;
+    border-color: #fda4af;
+  }
+  :is(input, select, textarea):hover:not(:disabled):not(:focus) {
+    border-color: var(--scola-blue);
+  }
+  .record-card:hover,
+  .group-card:hover,
+  .diary-card:hover,
+  .student-card:hover,
+  .stat-card:hover,
+  .quick-grid > a:hover,
+  .quick-grid > button:hover,
+  .agenda-row:hover,
+  .meeting-summary > a:hover,
+  .cal-week-day:hover,
+  .add-group-card:hover,
+  .schedule-day:hover {
+    border-style: solid;
+    border-color: var(--scola-blue);
+    background: #fff;
+    box-shadow: var(--scola-hover-shadow);
+  }
+  .record-card:hover .record-title,
+  .group-card:hover .group-name,
+  .diary-card:hover .record-title,
+  .student-card:hover h3 {
+    color: var(--scola-blue);
+  }
+  .tabs button:not(.active):hover,
+  .segmented button:not(.active):hover {
+    background: #eef2f6;
+    color: #374151;
+  }
+  .cal-event:hover,
+  .schedule-card:hover {
+    box-shadow: var(--scola-shadow);
+    filter: brightness(0.98);
+  }
+  .attendance-row:hover {
+    background: #f8fbfe;
+  }
+  .status-option:not(.selected):hover {
+    color: var(--scola-blue);
+    border-color: var(--scola-field-border);
+    background: #f8fbfe;
+  }
+  .dotted-action:hover,
+  .outline-link:hover,
+  .diary-preview-list > a:hover {
+    border-style: solid;
+    background: #f0f7fc;
+    box-shadow: var(--scola-shadow);
+  }
+}
+
+@media (max-width: 1200px) {
+  .main-content {
+    padding: 24px;
+  }
+  .page-heading {
+    flex-wrap: wrap;
+    gap: 18px;
+  }
+  .record-grid,
+  .student-grid,
+  .group-grid,
+  .diary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .schedule-week {
+    gap: 10px;
+    padding: 16px;
+  }
+  .schedule-day {
+    padding: 8px;
+  }
+  .schedule-card {
+    padding: 7px 8px;
+  }
+  .attendance-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+@media (max-width: 1023px) {
+  .app-shell .topbar {
+    display: flex;
+  }
+  .main-content {
+    padding: 24px;
+  }
+  .profile-block {
+    margin: 0;
+  }
+}
+@media (max-width: 700px) {
+  .main-content {
+    padding: 16px;
+  }
+  .page-heading,
+  .cal-page-header {
+    padding: 18px 16px;
+    min-height: 86px;
+    border-radius: 12px;
+    gap: 16px;
+  }
+  .page-heading {
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 20px;
+  }
+  .page-heading-main {
+    gap: 12px;
+  }
+  .page-heading h1,
+  .cal-page-title h1 {
+    font-size: 19px;
+  }
+  .page-heading p {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .page-heading > .button-row {
+    justify-content: flex-start;
+  }
+  .page-heading > .button-row > button {
+    flex: 1;
+  }
+  .page-heading-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+  }
+  .panel,
+  .collection-panel {
+    padding: 18px;
+    border-radius: 12px;
+  }
+  .panel-heading {
+    flex-wrap: wrap;
+  }
+  .panel-heading h2 {
+    font-size: 15px;
+  }
+  .panel-heading h2 > svg {
+    width: 17px;
+    height: 17px;
+    padding: 6px;
+  }
+  .form-grid,
+  .detail-grid {
+    gap: 20px;
+  }
+  .tabs {
+    flex-wrap: wrap;
+    gap: 3px;
+  }
+  .tabs button {
+    font-size: 12px;
+    padding: 10px;
+    flex: 1 1 auto;
+  }
+  .record-grid,
+  .student-grid,
+  .group-grid,
+  .diary-grid {
+    grid-template-columns: 1fr;
+  }
+  .add-group-card {
+    min-height: 150px;
+  }
+  .group-card {
+    min-height: 190px;
+  }
+  .filter-bar select {
+    max-width: 100%;
+    min-width: 130px;
+  }
+  .settings-panel .entity-form {
+    margin-top: 4px;
+  }
+  .calendar-toolbar {
+    gap: 14px;
+  }
+  .calendar-toolbar .tabs {
+    flex-basis: 100%;
+  }
+  .calendar-toolbar > select {
+    width: 100%;
+  }
+  .schedule-week {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 14px;
+    gap: 12px;
+  }
+  .schedule-day {
+    min-height: 220px;
+    padding: 10px;
+  }
+  .schedule-day:last-child {
+    grid-column: 1/-1;
+  }
+  .attendance-controls {
+    gap: 16px;
+  }
+  .attendance-controls > label {
+    min-width: 100%;
+  }
+  .attendance-row {
+    padding: 14px;
+  }
+  .status-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+  .status-option {
+    min-height: 42px;
+    font-size: 12px;
+  }
+  .attendance-save {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .mini-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .mini-stats > div {
+    padding: 16px;
+  }
+  .empty {
+    padding: 32px 18px;
+  }
+  .scola-dialog {
+    padding: 22px 18px;
+    border-radius: 16px;
+  }
+  .scola-dialog-heading {
+    margin: -22px -18px 0;
+    padding: 22px 58px 22px 18px;
+  }
+  .scola-dialog [data-slot='dialog-title'] {
+    font-size: 18px;
+  }
+  .scola-dialog [data-slot='dialog-close'] {
+    top: 14px;
+    right: 12px;
+  }
+  .form-actions {
+    bottom: -22px;
+    z-index: 2;
+  }
+  .form-actions button {
+    flex: 1;
+  }
+  .auth-story {
+    padding: 28px 24px;
+  }
+  .auth-form {
+    padding: 24px 16px;
+    align-items: start;
+  }
+  .auth-box {
+    padding: 26px 22px;
+    border-radius: 16px;
+  }
+  .auth-box h2 {
+    font-size: 24px;
+  }
+}
+@media (max-width: 420px) {
+  .schedule-week {
+    grid-template-columns: 1fr;
+  }
+  .schedule-day {
+    min-height: 170px;
+  }
+  .schedule-sessions {
+    min-height: 65px;
+  }
+  .cal-create {
+    padding-inline: 10px;
+    font-size: 11px;
+  }
+  .cal-legend {
+    font-size: 9px;
+  }
+}
+@media (pointer: coarse) {
+  [data-slot='button'],
+  [data-slot='button'][data-size^='icon'],
+  .record-actions [data-slot='button'],
+  .cal-day-add {
+    min-height: 44px;
+  }
+  [data-slot='button'][data-size^='icon'],
+  .record-actions [data-slot='button'] {
+    min-width: 44px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

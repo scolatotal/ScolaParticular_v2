@@ -1,0 +1,1 @@
+export default function NotFound(){return <main className="page-loading"><h1>Esta páxina non existe.</h1><p>Volve ao teu espazo para continuar.</p><a className="primary" href="/dashboard">Ir ao inicio</a></main>;}
