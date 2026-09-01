@@ -10,15 +10,17 @@ const SITE_CREATOR_PLACEHOLDER_DATABASE_ID =
   '00000000-0000-4000-8000-000000000000';
 
 type HostingConfig = { d1?: string | null; r2?: string | null };
+
 const hostingConfigPath = resolve(process.cwd(), '.openai/hosting.json');
 const hasHostingConfig = existsSync(hostingConfigPath);
 const isVercel = Boolean(process.env.VERCEL);
+
 const hostingConfig: HostingConfig = hasHostingConfig
   ? JSON.parse(readFileSync(hostingConfigPath, 'utf8'))
   : {};
+
 const { d1, r2 } = hostingConfig;
 
-// macOS Seatbelt blocks FSEvents, so Codex previews need polling for HMR.
 const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === 'seatbelt';
 
 const localBindingConfig = {
@@ -44,8 +46,6 @@ const localBindingConfig = {
 };
 
 export default defineConfig(async () => {
-  // Keep Wrangler and Miniflare state project-local. These are non-secret tool
-  // settings; application environment belongs in ignored `.env*` files.
   process.env.WRANGLER_WRITE_LOGS ??= 'false';
   process.env.WRANGLER_LOG_PATH ??= '.wrangler/logs';
   process.env.MINIFLARE_REGISTRY_PATH ??= '.wrangler/registry';
@@ -54,7 +54,6 @@ export default defineConfig(async () => {
     ? [nitro({ preset: 'vercel' })]
     : [
         ...(hasHostingConfig ? [sites()] : []),
-        // Wrangler snapshots its log path while the plugin is imported.
         (await import('@cloudflare/vite-plugin')).cloudflare({
           viteEnvironment: { name: 'rsc', childEnvironments: ['ssr'] },
           config: localBindingConfig,
