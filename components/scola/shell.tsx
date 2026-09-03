@@ -1,6 +1,5 @@
 'use client';
 import { useEffect, useState, type ReactNode } from 'react';
-import Link from 'next/link';
 import {
   Home,
   CalendarDays,
@@ -24,6 +23,7 @@ import { type EntityName, rowTitle, textValue } from '@/lib/entities';
 import { useApp } from './provider';
 import { Brand } from './auth';
 import { EditorHost, Modal, RecordDetails } from './editor';
+import { AppLink as Link } from './app-link';
 const nav = [
   ['dashboard', 'Inicio', Home],
   ['axenda', 'Axenda', CalendarDays],

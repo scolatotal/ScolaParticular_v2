@@ -1,7 +1,6 @@
 'use client';
 import { useState, type ReactNode } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { AppLink as Link, useScolaPathname } from './app-link';
 import {
   Plus,
   Search,
@@ -71,7 +70,7 @@ export function PageHeading({
   description: string;
   actions?: ReactNode;
 }) {
-  const section = usePathname()?.split('/')[1] as keyof typeof pageIcons;
+  const section = useScolaPathname().split('/')[1] as keyof typeof pageIcons;
   const HeadingIcon = pageIcons[section] || FileText;
   return (
     <div className="page-heading">

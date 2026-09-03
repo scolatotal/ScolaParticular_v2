@@ -1,13 +1,13 @@
 'use client';
 import {useEffect,useState,type FormEvent} from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import {BookOpen,CalendarDays,ShieldCheck,ArrowRight} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
 import {supabase} from '@/lib/supabase';
 import {errorMessage} from '@/lib/validation';
 import {useApp} from './provider';
+import {AppLink as Link} from './app-link';
 export function Brand() {
   const logo = process.env.NEXT_PUBLIC_SCOLA_LOGO_PATH || '/logo-scola.png';
   return (

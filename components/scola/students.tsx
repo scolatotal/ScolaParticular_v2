@@ -1,6 +1,6 @@
 'use client';
 import {useState} from 'react';
-import Link from 'next/link';
+import {AppLink as Link} from './app-link';
 import {Users,Plus,Search,ArrowLeft,LayoutGrid,List,ShieldAlert,Pencil,Archive,ArrowRight,Phone,CalendarDays} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';

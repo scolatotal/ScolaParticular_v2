@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import Link from 'next/link';
+import { AppLink as Link } from './app-link';
 import { ShieldCheck } from 'lucide-react';
 import { useApp } from './provider';
 import { PageHeading, Panel } from './shared';

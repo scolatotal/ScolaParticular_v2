@@ -1,5 +1,5 @@
 'use client';
-import { useEffect } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useApp } from './provider';
@@ -13,6 +13,21 @@ import { Schedules } from './schedules';
 import { Diary } from './diary';
 import { School, Settings } from './settings';
 import { PageHeading, Collection } from './shared';
+import { SCOLA_NAVIGATION_EVENT } from './app-link';
+
+function browserLocation(route: string, id?: string) {
+  if (typeof window === 'undefined')
+    return { route, id, key: `/${route}${id ? `/${id}` : ''}` };
+  const [nextRoute = 'login', nextId] = window.location.pathname
+    .split('/')
+    .filter(Boolean);
+  return {
+    route: nextRoute,
+    id: nextId,
+    key: `${window.location.pathname}${window.location.search}`,
+  };
+}
+
 export function ScolaApp({
   route = 'login',
   id,
@@ -20,18 +35,30 @@ export function ScolaApp({
   route?: string;
   id?: string;
 }) {
+  const [location, setLocation] = useState(() => browserLocation(route, id));
   const { user, authReady, loading, error, reload, edit } = useApp();
+  const activeRoute = location.route;
+  const activeId = location.id;
   const publicRoute = [
     'login',
     'register',
     'forgot-password',
     'reset-password',
-  ].includes(route);
+  ].includes(activeRoute);
+  useEffect(() => {
+    const syncLocation = () => setLocation(browserLocation(route, id));
+    window.addEventListener('popstate', syncLocation);
+    window.addEventListener(SCOLA_NAVIGATION_EVENT, syncLocation);
+    return () => {
+      window.removeEventListener('popstate', syncLocation);
+      window.removeEventListener(SCOLA_NAVIGATION_EVENT, syncLocation);
+    };
+  }, [route, id]);
   useEffect(() => {
     if (authReady && !user && !publicRoute && !error)
       window.location.replace('/login');
   }, [authReady, user, publicRoute, error]);
-  if (publicRoute) return <Auth mode={route} />;
+  if (publicRoute) return <Auth mode={activeRoute} />;
   if (!authReady || !user)
     return (
       <div className="page-loading" role="status">
@@ -40,7 +67,8 @@ export function ScolaApp({
       </div>
     );
   return (
-    <Shell route={route}>
+    <Shell route={activeRoute}>
+      <Fragment key={location.key}>
       {error ? (
         <div className="error-box" role="alert">
           {error}
@@ -59,27 +87,27 @@ export function ScolaApp({
           <div />
           <span>Cargando o teu espazo…</span>
         </div>
-      ) : route === 'dashboard' ? (
+      ) : activeRoute === 'dashboard' ? (
         <Dashboard />
-      ) : route === 'alumnado' ? (
-        id ? (
-          <StudentDetail id={id} />
+      ) : activeRoute === 'alumnado' ? (
+        activeId ? (
+          <StudentDetail id={activeId} />
         ) : (
           <Students />
         )
-      ) : route === 'axenda' ? (
+      ) : activeRoute === 'axenda' ? (
         <CalendarView />
-      ) : route === 'faltas' ? (
+      ) : activeRoute === 'faltas' ? (
         <Attendance />
-      ) : route === 'horarios' ? (
+      ) : activeRoute === 'horarios' ? (
         <Schedules />
-      ) : route === 'diario' ? (
+      ) : activeRoute === 'diario' ? (
         <Diary />
-      ) : route === 'centro' ? (
+      ) : activeRoute === 'centro' ? (
         <School />
-      ) : route === 'configuracion' ? (
+      ) : activeRoute === 'configuracion' ? (
         <Settings />
-      ) : route === 'titorias' ? (
+      ) : activeRoute === 'titorias' ? (
         <>
           <PageHeading
             eyebrow="CONVERSAS QUE ACOMPAÑAN"
@@ -97,7 +125,7 @@ export function ScolaApp({
           />
           <Collection table="tutoring_sessions" hideCreate />
         </>
-      ) : route === 'reunions' ? (
+      ) : activeRoute === 'reunions' ? (
         <>
           <PageHeading
             eyebrow="ACORDOS QUE NOS FAN AVANZAR"
@@ -113,6 +141,7 @@ export function ScolaApp({
           <Collection table="meetings" hideCreate />
         </>
       ) : null}
+      </Fragment>
     </Shell>
   );
 }
