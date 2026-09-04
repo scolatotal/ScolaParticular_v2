@@ -397,7 +397,7 @@
         "label": "Grupo",
         "kind": "reference",
         "ref": "groups",
-        "required": true
+        "required": false
       },
       {
         "name": "room",
