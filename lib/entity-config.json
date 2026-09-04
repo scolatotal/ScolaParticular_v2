@@ -242,6 +242,42 @@
         "kind": "tel"
       },
       {
+        "name": "competency_project",
+        "label": "Proxecto Competencial",
+        "kind": "select",
+        "options": [
+          "Sen indicar",
+          "Si",
+          "Non"
+        ],
+        "default": "Sen indicar",
+        "required": true
+      },
+      {
+        "name": "school_transport",
+        "label": "Transporte escolar",
+        "kind": "select",
+        "options": [
+          "Sen indicar",
+          "Si",
+          "Non"
+        ],
+        "default": "Sen indicar",
+        "required": true
+      },
+      {
+        "name": "school_meals",
+        "label": "Comedor escolar",
+        "kind": "select",
+        "options": [
+          "Sen indicar",
+          "Si",
+          "Non"
+        ],
+        "default": "Sen indicar",
+        "required": true
+      },
+      {
         "name": "notes",
         "label": "Observacións",
         "kind": "textarea"
