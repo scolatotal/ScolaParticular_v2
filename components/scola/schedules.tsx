@@ -14,6 +14,11 @@ function isSupportSession(name: string) {
     ['libre disposición', 'polos creativos'].includes(normalized);
 }
 
+function isBreakSession(name: string) {
+  const normalized = name.trim().toLocaleLowerCase('gl');
+  return normalized.includes('recreo') || normalized === 'hora de ler';
+}
+
 export function Schedules() {
   const { data, edit } = useApp();
   const [mode, setMode] = useState('Meu horario'),
@@ -104,6 +109,11 @@ export function Schedules() {
             </h2>
             <div className="schedule-sessions">
               {slots.flatMap(({ start, end }) => {
+                const breakSlot = yearRows.some((r) =>
+                  String(r.start_time).slice(0, 5) === start &&
+                  String(r.end_time).slice(0, 5) === end &&
+                  isBreakSession(String(data.subjects.find((s) => s.id === r.subject_id)?.name || '')),
+                );
                 const sessions = rows.filter((r) =>
                   r.weekday === index + 1 &&
                   String(r.start_time).slice(0, 5) === start &&
@@ -114,7 +124,7 @@ export function Schedules() {
                     <button
                       type="button"
                       key={`empty-${start}-${end}`}
-                      className="schedule-card schedule-card-support"
+                      className={`schedule-card ${breakSlot ? 'schedule-card-break' : 'schedule-card-support'}`}
                       aria-label={`Engadir sesión: ${day}, ${start}–${end}`}
                       aria-haspopup="dialog"
                       onClick={() => edit(table, undefined, {
@@ -125,20 +135,24 @@ export function Schedules() {
                         ...(group ? { group_id: group } : {}),
                       })}
                     >
-                      <span className="schedule-time">{start} – {end}</span>
+                      {!breakSlot && <span className="schedule-time">{start} – {end}</span>}
                     </button>,
                   ];
                 }
                 return sessions.map((r) => {
                   const subject = data.subjects.find((s) => s.id === r.subject_id);
+                  const breakSession = isBreakSession(String(subject?.name || ''));
+                  const blank = breakSession && !r.group_id && !r.show_without_group;
                   return (
                     <button
                       type="button"
                       key={r.id}
-                      className={`schedule-card${isSupportSession(String(subject?.name || '')) ? ' schedule-card-support' : ''}`}
+                      className={`schedule-card${breakSession ? ' schedule-card-break' : isSupportSession(String(subject?.name || '')) ? ' schedule-card-support' : ''}`}
+                      aria-label={blank ? `Editar franxa sen grupo: ${day}, ${start}–${end}` : undefined}
                       onClick={() => setSelectedSession({ table, row: r })}
                       aria-haspopup="dialog"
                     >
+                      {!blank && <>
                       <span className="schedule-time">{start} – {end}</span>
                       <strong className="schedule-subject">
                         {rowTitle(table, r, data)}
@@ -150,6 +164,7 @@ export function Schedules() {
                       )}
                       {r.room && <span className="schedule-detail">{r.room}</span>}
                       {r.teacher && <span className="schedule-detail">{r.teacher}</span>}
+                      </>}
                     </button>
                   );
                 });

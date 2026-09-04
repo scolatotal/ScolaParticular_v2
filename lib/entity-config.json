@@ -400,6 +400,12 @@
         "required": false
       },
       {
+        "name": "show_without_group",
+        "label": "Mostrar recreo / hora de ler sen grupo",
+        "kind": "checkbox",
+        "default": false
+      },
+      {
         "name": "room",
         "label": "Aula / espazo",
         "kind": "text"

@@ -1008,12 +1008,12 @@ input[type='file']::file-selector-button {
   display: block;
   width: 100%;
   min-width: 0;
-  min-height: 94px;
+  min-height: 64px;
   background: transparent;
   color: var(--foreground);
   border: 1px dashed var(--scola-blue);
   border-radius: 6px;
-  padding: 8px 10px;
+  padding: 5px 8px;
   text-align: left;
   line-height: 1.3;
   overflow-wrap: anywhere;
@@ -1021,6 +1021,9 @@ input[type='file']::file-selector-button {
 }
 .schedule-card-support {
   background: #CAEDFB;
+}
+.schedule-card-break {
+  background: #F2F2F2;
 }
 .schedule-card:focus-visible {
   outline: 2px solid var(--scola-blue);
