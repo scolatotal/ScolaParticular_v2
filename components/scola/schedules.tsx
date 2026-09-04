@@ -8,17 +8,10 @@ import { useApp } from './provider';
 import { PageHeading, Collection } from './shared';
 import { Modal, RecordDetails } from './editor';
 
-function subjectColors(color: string) {
-  const backgroundColor = /^#[0-9a-f]{6}$/i.test(color) ? color : '#0070c0';
-  const [red, green, blue] = [1, 3, 5].map((offset) => {
-    const channel =
-      parseInt(backgroundColor.slice(offset, offset + 2), 16) / 255;
-    return channel <= 0.04045
-      ? channel / 12.92
-      : ((channel + 0.055) / 1.055) ** 2.4;
-  });
-  const luminance = 0.2126 * red + 0.7152 * green + 0.0722 * blue;
-  return { backgroundColor, color: luminance > 0.179 ? '#000000' : '#ffffff' };
+function isSupportSession(name: string) {
+  const normalized = name.trim().toLocaleLowerCase('gl');
+  return /^(gardas?|ld)(?:\s|$)/.test(normalized) ||
+    ['libre disposición', 'polos creativos'].includes(normalized);
 }
 
 export function Schedules() {
@@ -33,9 +26,16 @@ export function Schedules() {
   const table: EntityName =
     mode === 'Meu horario' ? 'teacher_schedules' : 'group_schedules';
   const year = data.profiles[0]?.academic_year || '2026/27';
-  const rows = data[table]
-    .filter((r) => (!group || r.group_id === group) && r.academic_year === year)
-    .sort((a, b) => String(a.start_time).localeCompare(String(b.start_time)));
+  const yearRows = data[table].filter((r) => r.academic_year === year);
+  const rows = yearRows.filter(
+    (r) => !group || r.group_id === group || (table === 'teacher_schedules' && !r.group_id),
+  );
+  // Share the same time slots across all weekdays, even when a day has gaps.
+  const slots = [...new Map(yearRows.map((r) => {
+    const start = String(r.start_time).slice(0, 5);
+    const end = String(r.end_time).slice(0, 5);
+    return [`${start}-${end}`, { start, end }] as const;
+  })).values()].sort((a, b) => a.start.localeCompare(b.start) || a.end.localeCompare(b.end));
   return (
     <>
       <PageHeading
@@ -103,40 +103,57 @@ export function Schedules() {
               </span>
             </h2>
             <div className="schedule-sessions">
-              {rows
-                .filter((r) => r.weekday === index + 1)
-                .map((r) => {
-                  const subject = data.subjects.find(
-                    (s) => s.id === r.subject_id,
-                  );
+              {slots.flatMap(({ start, end }) => {
+                const sessions = rows.filter((r) =>
+                  r.weekday === index + 1 &&
+                  String(r.start_time).slice(0, 5) === start &&
+                  String(r.end_time).slice(0, 5) === end,
+                );
+                if (!sessions.length) {
+                  return [
+                    <button
+                      type="button"
+                      key={`empty-${start}-${end}`}
+                      className="schedule-card schedule-card-support"
+                      aria-label={`Engadir sesión: ${day}, ${start}–${end}`}
+                      aria-haspopup="dialog"
+                      onClick={() => edit(table, undefined, {
+                        weekday: index + 1,
+                        start_time: start,
+                        end_time: end,
+                        academic_year: String(year),
+                        ...(group ? { group_id: group } : {}),
+                      })}
+                    >
+                      <span className="schedule-time">{start} – {end}</span>
+                    </button>,
+                  ];
+                }
+                return sessions.map((r) => {
+                  const subject = data.subjects.find((s) => s.id === r.subject_id);
                   return (
                     <button
                       type="button"
                       key={r.id}
-                      className="schedule-card"
-                      style={subjectColors(String(subject?.color || ''))}
+                      className={`schedule-card${isSupportSession(String(subject?.name || '')) ? ' schedule-card-support' : ''}`}
                       onClick={() => setSelectedSession({ table, row: r })}
                       aria-haspopup="dialog"
                     >
-                      <span className="schedule-time">
-                        {String(r.start_time).slice(0, 5)} –{' '}
-                        {String(r.end_time).slice(0, 5)}
-                      </span>
+                      <span className="schedule-time">{start} – {end}</span>
                       <strong className="schedule-subject">
                         {rowTitle(table, r, data)}
                       </strong>
-                      <span className="schedule-detail">
-                        {data.groups.find((g) => g.id === r.group_id)?.name}
-                      </span>
-                      {r.room && (
-                        <span className="schedule-detail">{r.room}</span>
+                      {r.group_id && (
+                        <span className="schedule-detail">
+                          {data.groups.find((g) => g.id === r.group_id)?.name}
+                        </span>
                       )}
-                      {r.teacher && (
-                        <span className="schedule-detail">{r.teacher}</span>
-                      )}
+                      {r.room && <span className="schedule-detail">{r.room}</span>}
+                      {r.teacher && <span className="schedule-detail">{r.teacher}</span>}
                     </button>
                   );
-                })}
+                });
+              })}
               <button
                 className="dotted-action"
                 onClick={() =>
