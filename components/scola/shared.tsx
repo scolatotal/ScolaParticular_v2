@@ -8,6 +8,7 @@ import {
   Pencil,
   ArrowUpRight,
   Clock,
+  Phone,
   Users,
   ClipboardCheck,
   NotebookPen,
@@ -252,7 +253,8 @@ export function Collection({
                         : 'blue'
                   }
                 >
-                  {textValue(row, 'status') ||
+                  {(table === 'student_contacts' && textValue(row, 'relationship')) ||
+                    textValue(row, 'status') ||
                     textValue(row, 'type') ||
                     textValue(row, 'severity') ||
                     entity.singular}
@@ -275,6 +277,12 @@ export function Collection({
               <button className="record-title" onClick={() => setSelected(row)}>
                 {rowTitle(table, row, data)}
               </button>
+              {table === 'student_contacts' && (
+                <p className="record-meta">
+                  <Phone size={14} aria-hidden="true" />
+                  {textValue(row, 'phone') || 'Sen teléfono indicado'}
+                </p>
+              )}
               {(row.date || row.starts_on) && (
                 <p className="record-meta">
                   <Clock size={14} />
@@ -284,7 +292,7 @@ export function Collection({
                   {row.start_time && ` · ${String(row.start_time).slice(0, 5)}`}
                 </p>
               )}
-              {row.student_id && (
+              {row.student_id && table !== 'student_contacts' && (
                 <p className="record-meta">
                   {data.students.find((s) => s.id === row.student_id)
                     ? rowTitle(
