@@ -98,7 +98,6 @@ test('archived groups keep the existing agenda rule without changing timetable m
 test('the school calendar shows only official dates, without lessons or personal events', () => {
   const data = timetable();
   data.calendar_events = [{ id: 'personal', title: 'Conmemoración persoal', type: 'Conmemoración', starts_on: '2026-09-09', ends_on: '2026-09-09' }];
-  data.meetings = [{ id: 'meeting', title: 'Reunión', date: '2026-09-09', status: 'Programada', show_in_agenda: true }];
   data.tutoring_sessions = [{ id: 'tutoring', date: '2026-09-09', status: 'Programada' }];
   data.school_commemorations = [{ id: 'official', name: 'Conmemoración oficial', starts_on: '2026-09-09', ends_on: '2026-09-09', academic_year: '2026/27' }];
   const before = structuredClone(data);
@@ -132,7 +131,6 @@ test('a regular school day stays empty in the calendar while the dashboard retai
 test('created events appear alongside official dates without importing timetable sessions or meetings', () => {
   const data = timetable();
   data.calendar_events = [{ id: 'created-event', title: 'Visita ao museo', type: 'Actividade', starts_on: '2026-09-09', ends_on: '2026-09-09', all_day: true }];
-  data.meetings = [{ id: 'meeting', date: '2026-09-09', status: 'Programada', show_in_agenda: true }];
   data.tutoring_sessions = [{ id: 'tutor', date: '2026-09-09', status: 'Programada' }];
   const entries = calendarForDay(data, '2026-09-09');
   expect(entries.map(item => item.id)).toEqual(['school_calendar_events-start', 'calendar_events-created-event']);

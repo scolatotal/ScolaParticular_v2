@@ -82,7 +82,6 @@ export function agendaForDay(data:Dataset,day:string,year='2026/27'):AgendaItem[
  data.calendar_events.filter(r=>eventOccurs(r,day)).forEach(r=>push('calendar_events',r,textValue(r,'type')));
  output.push(...schoolCalendarForDay(data,day,year));
  data.tutoring_sessions.filter(r=>r.date===day&&r.status!=='Cancelada').forEach(r=>push('tutoring_sessions',r,'Titoría'));
- data.meetings.filter(r=>r.date===day&&r.status!=='Cancelada'&&r.show_in_agenda).forEach(r=>push('meetings',r,'Reunión'));
  if(isTeachingDay(data,day,year))output.push(...classesForDay(data,day,year).filter(item=>!data.groups.find(g=>g.id===item.row.group_id)?.archived));
  return output.sort((a,b)=>a.time.localeCompare(b.time));
 }

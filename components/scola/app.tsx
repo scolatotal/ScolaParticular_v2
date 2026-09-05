@@ -11,9 +11,10 @@ import { CalendarView } from './calendar';
 import { Attendance } from './attendance';
 import { Schedules } from './schedules';
 import { Diary } from './diary';
+import { Tasks } from './tasks';
 import { School, Settings } from './settings';
 import { PageHeading, Collection } from './shared';
-import { SCOLA_NAVIGATION_EVENT } from './app-link';
+import { AppLink as Link, SCOLA_NAVIGATION_EVENT } from './app-link';
 
 function browserLocation(route: string, id?: string) {
   if (typeof window === 'undefined')
@@ -61,10 +62,10 @@ export function ScolaApp({
   if (publicRoute) return <Auth mode={activeRoute} />;
   if (!authReady || !user)
     return (
-      <div className="page-loading" role="status">
+      <output className="page-loading">
         {error || 'Comprobando o teu acceso…'}
-        {error && <a href="/login">Volver ao inicio</a>}
-      </div>
+        {error && <Link href="/login">Volver ao inicio</Link>}
+      </output>
     );
   return (
     <Shell route={activeRoute}>
@@ -77,16 +78,15 @@ export function ScolaApp({
           </Button>
         </div>
       ) : loading ? (
-        <div
+        <output
           className="loading-skeleton"
-          role="status"
           aria-label="Cargando o teu espazo"
         >
           <div />
           <div />
           <div />
           <span>Cargando o teu espazo…</span>
-        </div>
+        </output>
       ) : activeRoute === 'dashboard' ? (
         <Dashboard />
       ) : activeRoute === 'alumnado' ? (
@@ -125,21 +125,8 @@ export function ScolaApp({
           />
           <Collection table="tutoring_sessions" hideCreate />
         </>
-      ) : activeRoute === 'reunions' ? (
-        <>
-          <PageHeading
-            eyebrow="ACORDOS QUE NOS FAN AVANZAR"
-            title="As miñas reunións"
-            description="Prepara cada encontro e conserva os acordos e as tarefas."
-            actions={
-              <Button className="primary" onClick={() => edit('meetings')}>
-                <Plus size={17} />
-                Crear reunión
-              </Button>
-            }
-          />
-          <Collection table="meetings" hideCreate />
-        </>
+      ) : activeRoute === 'tarefas' ? (
+        <Tasks />
       ) : null}
       </Fragment>
     </Shell>

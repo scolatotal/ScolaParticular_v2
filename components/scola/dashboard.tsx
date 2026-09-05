@@ -7,7 +7,7 @@ import {
   Users,
   ClipboardCheck,
   MessagesSquare,
-  GraduationCap,
+  ListChecks,
   ArrowRight,
   Plus,
   NotebookPen,
@@ -97,7 +97,7 @@ const shortcuts: Shortcut[] = [
   { label: 'Alumnado e grupos', icon: Users, href: '/alumnado' },
   { label: 'Rexistrar falta', icon: ClipboardCheck, href: '/faltas' },
   { label: 'Nova titoría', icon: MessagesSquare, entity: 'tutoring_sessions' },
-  { label: 'Nova reunión', icon: GraduationCap, entity: 'meetings' },
+  { label: 'Nova tarefa', icon: ListChecks, entity: 'tasks' },
   { label: 'Diario docente', icon: NotebookPen, href: '/diario' },
   { label: 'Datos do centro', icon: Building2, href: '/centro' },
   { label: 'Horarios', icon: Clock, href: '/horarios' },
@@ -135,9 +135,7 @@ export function Dashboard() {
   const upcomingTutors = data.tutoring_sessions.filter(
     (r) => String(r.date) >= day && r.status === 'Programada',
   );
-  const upcomingMeetings = data.meetings.filter(
-    (r) => String(r.date) >= day && r.status === 'Programada',
-  );
+  const pendingTasks = data.tasks.filter((r) => !r.completed);
   const nextDay = format(addDays(parseISO(day), 1), 'yyyy-MM-dd');
   const reminders = [
     ...items.filter((i) => reminderDue(i, day)),
@@ -298,7 +296,7 @@ export function Dashboard() {
             })}
           </div>
         </Panel>
-        <Panel title="Próximos encontros" icon={<MessagesSquare size={20} />}>
+        <Panel title="Seguimento" icon={<ListChecks size={20} />}>
           <div className="meeting-summary">
             <Link href="/titorias">
               <MessagesSquare size={22} />
@@ -306,10 +304,10 @@ export function Dashboard() {
               <strong>{upcomingTutors.length}</strong>
               <ArrowRight size={15} />
             </Link>
-            <Link href="/reunions">
-              <GraduationCap size={22} />
-              <span>Próximas reunións</span>
-              <strong>{upcomingMeetings.length}</strong>
+            <Link href="/tarefas">
+              <ListChecks size={22} />
+              <span>Tarefas pendentes</span>
+              <strong>{pendingTasks.length}</strong>
               <ArrowRight size={15} />
             </Link>
           </div>

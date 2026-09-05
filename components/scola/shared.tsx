@@ -13,7 +13,7 @@ import {
   ClipboardCheck,
   NotebookPen,
   MessagesSquare,
-  GraduationCap,
+  ListChecks,
   Building2,
   Settings,
 } from 'lucide-react';
@@ -36,7 +36,7 @@ const pageIcons = {
   diario: NotebookPen,
   horarios: Clock,
   titorias: MessagesSquare,
-  reunions: GraduationCap,
+  tarefas: ListChecks,
   centro: Building2,
   configuracion: Settings,
 };

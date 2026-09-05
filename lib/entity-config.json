@@ -1052,9 +1052,9 @@
       }
     ]
   },
-  "meetings": {
-    "label": "Reunións",
-    "singular": "Reunión",
+  "tasks": {
+    "label": "Tarefas",
+    "singular": "Tarefa",
     "titleField": "title",
     "fields": [
       {
@@ -1064,87 +1064,20 @@
         "required": true
       },
       {
-        "name": "type",
-        "label": "Tipo",
-        "kind": "select",
-        "options": [
-          "Claustro",
-          "CCP",
-          "Equipo docente",
-          "Ciclo",
-          "Departamento",
-          "Coordinación",
-          "Avaliación",
-          "Familias",
-          "Formación",
-          "Outra"
-        ],
-        "default": "Claustro",
-        "required": true
-      },
-      {
-        "name": "date",
-        "label": "Data",
-        "kind": "date",
-        "required": true
-      },
-      {
-        "name": "start_time",
-        "label": "Hora de inicio",
-        "kind": "time"
-      },
-      {
-        "name": "end_time",
-        "label": "Hora de fin",
-        "kind": "time"
-      },
-      {
-        "name": "location",
-        "label": "Lugar",
-        "kind": "text"
-      },
-      {
-        "name": "participants",
-        "label": "Participantes",
-        "kind": "textarea"
-      },
-      {
-        "name": "agenda",
-        "label": "Orde do día",
-        "kind": "textarea"
+        "name": "due_date",
+        "label": "Data límite",
+        "kind": "date"
       },
       {
         "name": "notes",
-        "label": "Observacións",
+        "label": "Notas",
         "kind": "textarea"
       },
       {
-        "name": "agreements",
-        "label": "Acordos",
-        "kind": "textarea"
-      },
-      {
-        "name": "tasks",
-        "label": "Tarefas pendentes",
-        "kind": "textarea"
-      },
-      {
-        "name": "status",
-        "label": "Estado",
-        "kind": "select",
-        "options": [
-          "Programada",
-          "Realizada",
-          "Cancelada"
-        ],
-        "default": "Programada",
-        "required": true
-      },
-      {
-        "name": "show_in_agenda",
-        "label": "Mostrar na axenda",
+        "name": "completed",
+        "label": "Completada",
         "kind": "checkbox",
-        "default": true
+        "default": false
       }
     ]
   }

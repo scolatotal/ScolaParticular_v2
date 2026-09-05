@@ -15,7 +15,7 @@ import {
   LogOut,
   MoreHorizontal,
   ChevronRight,
-  GraduationCap,
+  ListChecks,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -32,7 +32,7 @@ const nav = [
   ['diario', 'Diario docente', NotebookPen],
   ['horarios', 'Horarios', Clock],
   ['titorias', 'Titorías', MessagesSquare],
-  ['reunions', 'Reunións', GraduationCap],
+  ['tarefas', 'Tarefas', ListChecks],
   ['centro', 'Datos do centro', Building2],
 ] as const;
 export function Shell({
@@ -214,7 +214,7 @@ function GlobalSearch({ onClose }: { onClose: () => void }) {
   const tables: EntityName[] = [
     'students',
     'diary_entries',
-    'meetings',
+    'tasks',
     'tutoring_sessions',
     'calendar_events',
   ];
@@ -234,7 +234,7 @@ function GlobalSearch({ onClose }: { onClose: () => void }) {
   return (
     <Modal
       title="Buscar en Scola"
-      description="Alumnado, diario, titorías, reunións e eventos."
+      description="Alumnado, diario, titorías, tarefas e eventos."
       onClose={onClose}
     >
       <div className="search-field">
