@@ -41,6 +41,14 @@ export function classesForDay(data: Dataset, day: string, year = '2026/27'): Age
   }))
   .sort((a, b) => a.time.localeCompare(b.time));
 }
+export function dashboardClassesForDay(data: Dataset, day: string, year = '2026/27'): AgendaItem[] {
+ return classesForDay(data,day,year).filter(item=>{
+  const subject=textValue(data.subjects.find(row=>row.id===item.row.subject_id),'name').trim();
+  const normalized=subject.toLocaleLowerCase('gl');
+  const excluded=/^(gardas?|ld)(?:\s|$)/.test(normalized)||/^libre disposición(?:\s|$)/.test(normalized);
+  return !excluded&&Boolean(subject||item.row.group_id);
+ });
+}
 export function schoolCalendarForDay(data: Dataset, day: string, year = '2026/27'): AgendaItem[] {
  const items: AgendaItem[] = [];
  for (const table of ['school_calendar_events', 'school_commemorations'] as const) {

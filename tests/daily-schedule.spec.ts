@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { agendaForDay, classesForDay, schoolCalendarForDay, calendarForDay } from '../lib/dates';
+import { agendaForDay, classesForDay, dashboardClassesForDay, schoolCalendarForDay, calendarForDay } from '../lib/dates';
 import { emptyDataset } from '../lib/entities';
 
 // Pure data tests: no browser, credentials or database records are used.
@@ -57,6 +57,27 @@ test('each weekday selects its own timetable and weekends are empty', () => {
   }
   expect(classesForDay(data, '2026-09-05')).toEqual([]);
   expect(classesForDay(data, '2026-09-06')).toEqual([]);
+});
+
+test('dashboard classes omit guards, free periods and truly empty slots', () => {
+  const data = timetable();
+  data.subjects.push(
+    { id: 'guard', name: 'Garda' },
+    { id: 'free', name: 'LD' },
+    { id: 'creative', name: 'Polos Creativos' },
+  );
+  const base = data.teacher_schedules[1];
+  data.teacher_schedules.push(
+    { ...base, id: 'guard-slot', subject_id: 'guard', group_id: null, start_time: '12:00:00', end_time: '12:30:00' },
+    { ...base, id: 'free-slot', subject_id: 'free', group_id: null, start_time: '12:30:00', end_time: '13:00:00' },
+    { ...base, id: 'empty-slot', subject_id: null, group_id: null, start_time: '13:00:00', end_time: '13:30:00' },
+    { ...base, id: 'creative-slot', subject_id: 'creative', group_id: null, start_time: '13:30:00', end_time: '14:00:00' },
+  );
+  expect(dashboardClassesForDay(data, '2026-08-31').map(item => item.row.id)).toEqual([
+    'monday-early',
+    'monday-late',
+    'creative-slot',
+  ]);
 });
 
 test('the current academic year and personal timetable stay separate', () => {

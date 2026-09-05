@@ -16,11 +16,11 @@ import {
   Building2,
   FolderOpen,
 } from 'lucide-react';
-import { addDays, format, parseISO, startOfWeek } from 'date-fns';
+import { addDays, format, parseISO } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import {
   agendaForDay,
-  classesForDay,
+  dashboardClassesForDay,
   dateLabel,
   reminderDue,
   type AgendaItem,
@@ -93,12 +93,10 @@ export function Dashboard() {
   const school =
     data.schools.find((s) => s.id === profile?.school_id) ?? data.schools[0];
   const items = agendaForDay(data, day, year),
-    classes = classesForDay(data, day, year);
-  const weekStart = startOfWeek(parseISO(day), { weekStartsOn: 1 });
-  const weekStartDay = format(weekStart, 'yyyy-MM-dd');
-  const weekEndDay = format(addDays(weekStart, 6), 'yyyy-MM-dd');
-  const weeklyAgenda = Array.from({ length: 7 }, (_, offset) => {
-    const agendaDay = format(addDays(weekStart, offset), 'yyyy-MM-dd');
+    classes = dashboardClassesForDay(data, day, year);
+  const agendaEndDay = format(addDays(parseISO(day), 8), 'yyyy-MM-dd');
+  const weeklyAgenda = Array.from({ length: 9 }, (_, offset) => {
+    const agendaDay = format(addDays(parseISO(day), offset), 'yyyy-MM-dd');
     return {
       day: agendaDay,
       items: agendaForDay(data, agendaDay, year).filter(
@@ -106,6 +104,10 @@ export function Dashboard() {
       ),
     };
   }).filter((entry) => entry.items.length > 0);
+  const upcomingEventCount = weeklyAgenda.reduce(
+    (total, entry) => total + entry.items.length,
+    0,
+  );
   const absence = data.attendance.filter(
     (r) => r.date === day && r.status === 'Falta',
   ).length;
@@ -122,9 +124,7 @@ export function Dashboard() {
     ['Faltas de hoxe', absence, ClipboardCheck, '/faltas'],
     [
       'Eventos próximos',
-      data.calendar_events.filter(
-        (r) => String(r.ends_on) >= day || String(r.repeat_until) >= day,
-      ).length,
+      upcomingEventCount,
       CalendarDays,
       '/axenda',
     ],
@@ -210,8 +210,7 @@ export function Dashboard() {
           link="/axenda"
         >
           <p className="weekly-agenda-range">
-            {dateLabel(weekStartDay, 'd MMM')} –{' '}
-            {dateLabel(weekEndDay, 'd MMM yyyy')}
+            {dateLabel(day, 'd MMM')} – {dateLabel(agendaEndDay, 'd MMM yyyy')}
           </p>
           {weeklyAgenda.length ? (
             <div className="weekly-agenda">
@@ -229,8 +228,8 @@ export function Dashboard() {
             </div>
           ) : (
             <Empty
-              title="Non hai eventos nesta semana"
-              description="Os eventos, encontros e datas do calendario desta semana aparecerán aquí."
+              title="Non hai eventos nos próximos nove días"
+              description="Os eventos, encontros e datas do calendario desde hoxe ata os oito días seguintes aparecerán aquí."
             />
           )}
           <button
