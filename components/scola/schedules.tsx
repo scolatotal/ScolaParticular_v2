@@ -32,6 +32,24 @@ export function Schedules() {
     mode === 'Meu horario' ? 'teacher_schedules' : 'group_schedules';
   const year = data.profiles[0]?.academic_year || '2026/27';
   const yearRows = data[table].filter((r) => r.academic_year === year);
+  const teacherRows = data.teacher_schedules.filter(
+    (r) => r.academic_year === year,
+  );
+  const matchesTeacherSlot = (
+    weekday: number,
+    start: string,
+    end: string,
+    groupId: string,
+  ) =>
+    mode === 'Horario do alumnado' &&
+    Boolean(groupId) &&
+    teacherRows.some(
+      (r) =>
+        r.weekday === weekday &&
+        String(r.start_time).slice(0, 5) === start &&
+        String(r.end_time).slice(0, 5) === end &&
+        r.group_id === groupId,
+    );
   const rows = yearRows.filter(
     (r) => !group || r.group_id === group || (table === 'teacher_schedules' && !r.group_id),
   );
@@ -124,7 +142,7 @@ export function Schedules() {
                     <button
                       type="button"
                       key={`empty-${start}-${end}`}
-                      className={`schedule-card ${breakSlot ? 'schedule-card-break' : 'schedule-card-support'}`}
+                      className={`schedule-card ${breakSlot ? 'schedule-card-break' : 'schedule-card-support'}${matchesTeacherSlot(index + 1, start, end, group) ? ' schedule-card-teacher-match' : ''}`}
                       aria-label={`Engadir sesión: ${day}, ${start}–${end}`}
                       aria-haspopup="dialog"
                       onClick={() => edit(table, undefined, {
@@ -143,11 +161,17 @@ export function Schedules() {
                   const subject = data.subjects.find((s) => s.id === r.subject_id);
                   const breakSession = isBreakSession(String(subject?.name || ''));
                   const blank = breakSession && !r.group_id && !r.show_without_group;
+                  const matchesTeacherSchedule = matchesTeacherSlot(
+                    index + 1,
+                    start,
+                    end,
+                    String(r.group_id || ''),
+                  );
                   return (
                     <button
                       type="button"
                       key={r.id}
-                      className={`schedule-card${breakSession ? ' schedule-card-break' : isSupportSession(String(subject?.name || '')) ? ' schedule-card-support' : ''}`}
+                      className={`schedule-card${breakSession ? ' schedule-card-break' : isSupportSession(String(subject?.name || '')) ? ' schedule-card-support' : ''}${matchesTeacherSchedule ? ' schedule-card-teacher-match' : ''}`}
                       aria-label={blank ? `Editar franxa sen grupo: ${day}, ${start}–${end}` : undefined}
                       onClick={() => setSelectedSession({ table, row: r })}
                       aria-haspopup="dialog"

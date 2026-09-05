@@ -10,16 +10,11 @@ import {
   ListChecks,
   ArrowRight,
   Plus,
-  NotebookPen,
   Clock,
   BookOpen,
   ArrowUpRight,
-  Link2,
   Building2,
-  Settings,
-  FilePlus2,
   FolderOpen,
-  type LucideIcon,
 } from 'lucide-react';
 import { addDays, format, parseISO, startOfWeek } from 'date-fns';
 import { Button } from '@/components/ui/button';
@@ -30,7 +25,7 @@ import {
   reminderDue,
   type AgendaItem,
 } from '@/lib/dates';
-import { textValue, type EntityName } from '@/lib/entities';
+import { textValue } from '@/lib/entities';
 import { useToday } from '@/hooks/use-today';
 import { useApp } from './provider';
 import { Panel, Empty } from './shared';
@@ -88,24 +83,6 @@ export function AgendaList({
     </>
   );
 }
-
-type Shortcut =
-  | { label: string; icon: LucideIcon; href: string }
-  | { label: string; icon: LucideIcon; entity: EntityName };
-const shortcuts: Shortcut[] = [
-  { label: 'Novo evento', icon: CalendarDays, entity: 'calendar_events' },
-  { label: 'Alumnado e grupos', icon: Users, href: '/alumnado' },
-  { label: 'Rexistrar falta', icon: ClipboardCheck, href: '/faltas' },
-  { label: 'Nova titoría', icon: MessagesSquare, entity: 'tutoring_sessions' },
-  { label: 'Nova tarefa', icon: ListChecks, entity: 'tasks' },
-  { label: 'Diario docente', icon: NotebookPen, href: '/diario' },
-  { label: 'Datos do centro', icon: Building2, href: '/centro' },
-  { label: 'Horarios', icon: Clock, href: '/horarios' },
-  { label: 'A miña axenda', icon: CalendarDays, href: '/axenda' },
-  { label: 'Nova entrada', icon: FilePlus2, entity: 'diary_entries' },
-  { label: 'Engadir alumno/a', icon: Users, entity: 'students' },
-  { label: 'Configuración', icon: Settings, href: '/configuracion' },
-];
 
 export function Dashboard() {
   const { data, edit } = useApp();
@@ -266,36 +243,7 @@ export function Dashboard() {
         </Panel>
       </div>
 
-      <div className="dashboard-secondary-grid">
-        <Panel
-          title="Enlaces rápidos"
-          icon={<Link2 size={21} />}
-          className="quick-panel"
-        >
-          <div className="quick-grid">
-            {shortcuts.map((shortcut) => {
-              const Icon = shortcut.icon;
-              const content = (
-                <>
-                  <Icon size={25} />
-                  <span>{shortcut.label}</span>
-                </>
-              );
-              return 'href' in shortcut ? (
-                <Link key={shortcut.label} href={shortcut.href}>
-                  {content}
-                </Link>
-              ) : (
-                <button
-                  key={shortcut.label}
-                  onClick={() => edit(shortcut.entity)}
-                >
-                  {content}
-                </button>
-              );
-            })}
-          </div>
-        </Panel>
+      <div className="dashboard-secondary-grid dashboard-secondary-single">
         <Panel title="Seguimento" icon={<ListChecks size={20} />}>
           <div className="meeting-summary">
             <Link href="/titorias">

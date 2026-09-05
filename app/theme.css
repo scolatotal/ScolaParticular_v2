@@ -899,6 +899,10 @@ input[type='file']::file-selector-button {
   display: flex;
   gap: 6px;
   flex: none;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 .status-option {
   padding: 8px 10px;
@@ -1179,6 +1183,9 @@ input[type='file']::file-selector-button {
 }
 .schedule-card-break {
   background: #F2F2F2;
+}
+.schedule-card-teacher-match {
+  background: #CAEDFB;
 }
 .schedule-card:focus-visible {
   outline: 2px solid var(--scola-blue);

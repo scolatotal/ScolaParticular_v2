@@ -570,6 +570,9 @@
 .dashboard-secondary-grid {
   align-items: start;
 }
+.dashboard-secondary-single {
+  grid-template-columns: minmax(0, 1fr);
+}
 .weekly-agenda-range {
   margin: 0 0 18px;
   font-size: 12px;
