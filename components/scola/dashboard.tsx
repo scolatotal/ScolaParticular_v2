@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { AppLink as Link } from './app-link';
 import {
   CalendarDays,
-  Users,
   ClipboardCheck,
   MessagesSquare,
   ListChecks,
@@ -128,7 +127,7 @@ export function Dashboard() {
       CalendarDays,
       '/axenda',
     ],
-    ['Alumnado', data.students.length, Users, '/alumnado'],
+    ['Tarefas pendentes', pendingTasks.length, ListChecks, '/tarefas'],
     ['Clases de hoxe', classes.length, Clock, '/horarios'],
   ] as const;
 
@@ -243,18 +242,12 @@ export function Dashboard() {
       </div>
 
       <div className="dashboard-secondary-grid dashboard-secondary-single">
-        <Panel title="Seguimento" icon={<ListChecks size={20} />}>
+        <Panel title="Seguimento" icon={<MessagesSquare size={20} />}>
           <div className="meeting-summary">
             <Link href="/titorias">
               <MessagesSquare size={22} />
               <span>Próximas titorías</span>
               <strong>{upcomingTutors.length}</strong>
-              <ArrowRight size={15} />
-            </Link>
-            <Link href="/tarefas">
-              <ListChecks size={22} />
-              <span>Tarefas pendentes</span>
-              <strong>{pendingTasks.length}</strong>
               <ArrowRight size={15} />
             </Link>
           </div>
