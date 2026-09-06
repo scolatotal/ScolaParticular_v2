@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import {
   addDays,
   addMonths,
@@ -15,9 +16,9 @@ import {
 } from 'date-fns';
 import {
   CalendarDays,
+  CalendarRange,
   ChevronLeft,
   ChevronRight,
-  Clock,
   List,
   Plus,
   Rows3,
@@ -34,11 +35,11 @@ import { useApp } from './provider';
 import { Empty } from './shared';
 import { Modal, RecordDetails } from './editor';
 
-type CalendarMode = 'Semanal' | 'Mensual' | 'Día' | 'Lista';
+type CalendarMode = 'Semanal' | 'Mensual' | 'Curso' | 'Lista';
 const modes = [
   { name: 'Semanal', icon: Rows3 },
   { name: 'Mensual', icon: CalendarDays },
-  { name: 'Día', icon: Clock },
+  { name: 'Curso', icon: CalendarRange },
   { name: 'Lista', icon: List },
 ] as const;
 const categories = [
@@ -121,15 +122,11 @@ export function CalendarView() {
   const firstDay =
     view === 'Semanal'
       ? weekStart
-      : view === 'Día'
-        ? selected
-        : startOfWeek(startOfMonth(selected), { weekStartsOn: 1 });
+      : startOfWeek(startOfMonth(selected), { weekStartsOn: 1 });
   const lastDay =
     view === 'Semanal'
       ? addDays(weekStart, 6)
-      : view === 'Día'
-        ? selected
-        : endOfWeek(endOfMonth(selected), { weekStartsOn: 1 });
+      : endOfWeek(endOfMonth(selected), { weekStartsOn: 1 });
   const dates = eachDayOfInterval({ start: firstDay, end: lastDay });
   const eventsForDay = (key: string) =>
     calendarForDay(data, key, year).filter(
@@ -161,9 +158,7 @@ export function CalendarView() {
   const heading =
     view === 'Semanal'
       ? weekHeading
-      : view === 'Día'
-        ? dateLabel(date, "EEEE, d 'de' MMMM")
-        : dateLabel(date, 'MMMM yyyy');
+      : dateLabel(date, 'MMMM yyyy');
   function navigate(direction: number) {
     setDate(
       dayKey(
@@ -222,6 +217,28 @@ export function CalendarView() {
         </nav>
         <div className="cal-main-layout">
           <div className="cal-main">
+            {view === 'Curso' ? (
+              <div className="cal-course-view">
+                <a
+                  href="/calendario-escolar-2026-27.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="cal-course-document"
+                  aria-label="Abrir o calendario escolar 2026/27 en PDF"
+                >
+                  <Image
+                    src="/calendario-escolar-2026-27.png"
+                    alt="Calendario escolar do curso 2026/27 do CEIP Plurilingüe Rosalía de Castro"
+                    width={2339}
+                    height={1654}
+                    sizes="(max-width: 760px) 980px, calc(100vw - 340px)"
+                    unoptimized
+                    priority
+                  />
+                </a>
+              </div>
+            ) : (
+              <>
             <div className="cal-period-bar">
               <h2 aria-live="polite">{heading}</h2>
               <div className="cal-period-actions">
@@ -385,15 +402,6 @@ export function CalendarView() {
                 </div>
               </div>
             )}
-
-            {view === 'Día' && (
-              <div className="cal-single-day">
-                <CalendarDayEvents
-                  items={events.get(date) || []}
-                  onOpen={setOpened}
-                />
-              </div>
-            )}
             {view === 'Lista' &&
               (eventDays.length ? (
                 <div className="cal-list-view">
@@ -416,6 +424,8 @@ export function CalendarView() {
                   description="Crea un evento ou proba con outro tipo ou período do calendario."
                 />
               ))}
+              </>
+            )}
           </div>
           {view === 'Mensual' && (
             <aside className="cal-month-sidebar">

@@ -96,6 +96,28 @@
   flex: 1;
   min-width: 0;
 }
+.cal-course-view {
+  overflow-x: auto;
+  padding: 12px;
+  border: 1px dashed var(--cal-blue);
+  border-radius: 10px;
+  background: #f8fbfe;
+  -webkit-overflow-scrolling: touch;
+}
+.cal-course-document {
+  display: block;
+  min-width: 920px;
+  background: #fff;
+}
+.cal-course-document img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.cal-course-document:focus-visible {
+  outline: 3px solid var(--cal-blue);
+  outline-offset: 3px;
+}
 .cal-period-bar {
   display: flex;
   justify-content: space-between;
