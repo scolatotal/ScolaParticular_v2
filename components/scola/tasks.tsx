@@ -1,13 +1,13 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { CalendarDays, Check, ListChecks, Pencil, Plus } from 'lucide-react';
+import { CalendarDays, Check, ListChecks, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { dateLabel } from '@/lib/dates';
 import { errorMessage } from '@/lib/validation';
 import { textValue, type DataRow } from '@/lib/entities';
 import { useToday } from '@/hooks/use-today';
-import { DeleteButton } from './editor';
+import { RecordDetails } from './editor';
 import { useApp } from './provider';
 import { Empty, PageHeading } from './shared';
 
@@ -18,6 +18,7 @@ export function Tasks() {
   const today = useToday();
   const [filter, setFilter] = useState<TaskFilter>('pending');
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [selectedTask, setSelectedTask] = useState<DataRow | null>(null);
   const pendingCount = data.tasks.filter((task) => !task.completed).length;
   const completedCount = data.tasks.length - pendingCount;
   const tasks = useMemo(
@@ -132,7 +133,7 @@ export function Tasks() {
                   <button
                     type="button"
                     className="task-content"
-                    onClick={() => edit('tasks', task)}
+                    onClick={() => setSelectedTask(task)}
                   >
                     <strong>{textValue(task, 'title')}</strong>
                     {textValue(task, 'notes') && (
@@ -146,16 +147,6 @@ export function Tasks() {
                       </small>
                     )}
                   </button>
-                  <div className="task-actions">
-                    <Button
-                      variant="ghost"
-                      aria-label="Editar tarefa"
-                      onClick={() => edit('tasks', task)}
-                    >
-                      <Pencil size={16} />
-                    </Button>
-                    <DeleteButton table="tasks" row={task} />
-                  </div>
                 </article>
               );
             })}
@@ -185,6 +176,13 @@ export function Tasks() {
           />
         )}
       </section>
+      {selectedTask && (
+        <RecordDetails
+          table="tasks"
+          row={selectedTask}
+          onClose={() => setSelectedTask(null)}
+        />
+      )}
     </div>
   );
 }

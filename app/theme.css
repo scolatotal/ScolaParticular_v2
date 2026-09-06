@@ -995,7 +995,7 @@ input[type='file']::file-selector-button {
 }
 .task-row {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
   gap: 14px;
   padding: 14px 16px;
@@ -1078,16 +1078,6 @@ input[type='file']::file-selector-button {
 }
 .task-content small.is-overdue {
   color: #b4233b;
-}
-.task-actions {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-}
-.task-actions [data-slot='button'] {
-  min-width: 36px;
-  min-height: 36px;
-  padding: 8px;
 }
 .task-row.is-complete {
   border-color: #cbd5e1;
@@ -1535,9 +1525,6 @@ input[type='file']::file-selector-button {
     grid-template-columns: auto minmax(0, 1fr);
     align-items: start;
     padding: 13px;
-  }
-  .task-actions {
-    grid-column: 2;
   }
   .settings-panel .entity-form {
     margin-top: 4px;
