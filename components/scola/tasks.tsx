@@ -11,7 +11,7 @@ import { RecordDetails } from './editor';
 import { useApp } from './provider';
 import { Empty, PageHeading } from './shared';
 
-type TaskFilter = 'pending' | 'completed' | 'all';
+type TaskFilter = 'pending' | 'completed';
 
 export function Tasks() {
   const { data, edit, save, notice } = useApp();
@@ -25,11 +25,7 @@ export function Tasks() {
     () =>
       data.tasks
         .filter((task) =>
-          filter === 'all'
-            ? true
-            : filter === 'completed'
-              ? Boolean(task.completed)
-              : !task.completed,
+          filter === 'completed' ? Boolean(task.completed) : !task.completed,
         )
         .sort((a, b) => {
           const aDue = textValue(a, 'due_date') || '9999-12-31';
@@ -98,13 +94,6 @@ export function Tasks() {
           >
             Completadas ({completedCount})
           </button>
-          <button
-            type="button"
-            className={filter === 'all' ? 'active' : ''}
-            onClick={() => setFilter('all')}
-          >
-            Todas ({data.tasks.length})
-          </button>
         </div>
 
         {tasks.length ? (
@@ -156,9 +145,7 @@ export function Tasks() {
             title={
               filter === 'pending'
                 ? 'Non tes tarefas pendentes'
-                : filter === 'completed'
-                  ? 'Aínda non completaches tarefas'
-                  : 'Aínda non hai tarefas'
+                : 'Aínda non completaches tarefas'
             }
             description={
               filter === 'pending'
@@ -166,7 +153,7 @@ export function Tasks() {
                 : 'As tarefas aparecerán aquí cando as marques como completadas.'
             }
             action={
-              filter !== 'completed' ? (
+              filter === 'pending' ? (
                 <Button className="primary" onClick={() => edit('tasks')}>
                   <Plus size={16} />
                   Crear tarefa
