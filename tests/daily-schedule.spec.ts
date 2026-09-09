@@ -59,12 +59,13 @@ test('each weekday selects its own timetable and weekends are empty', () => {
   expect(classesForDay(data, '2026-09-06')).toEqual([]);
 });
 
-test('dashboard classes omit guards, free periods and truly empty slots', () => {
+test('dashboard mirrors visible timetable sessions and omits visually blank slots', () => {
   const data = timetable();
   data.subjects.push(
     { id: 'guard', name: 'Garda' },
     { id: 'free', name: 'LD' },
     { id: 'creative', name: 'Polos Creativos' },
+    { id: 'reading', name: 'Hora de ler' },
   );
   const base = data.teacher_schedules[1];
   data.teacher_schedules.push(
@@ -72,11 +73,16 @@ test('dashboard classes omit guards, free periods and truly empty slots', () => 
     { ...base, id: 'free-slot', subject_id: 'free', group_id: null, start_time: '12:30:00', end_time: '13:00:00' },
     { ...base, id: 'empty-slot', subject_id: null, group_id: null, start_time: '13:00:00', end_time: '13:30:00' },
     { ...base, id: 'creative-slot', subject_id: 'creative', group_id: null, start_time: '13:30:00', end_time: '14:00:00' },
+    { ...base, id: 'blank-reading-slot', subject_id: 'reading', group_id: null, start_time: '14:00:00', end_time: '14:30:00', show_without_group: false },
+    { ...base, id: 'visible-reading-slot', subject_id: 'reading', group_id: null, start_time: '14:30:00', end_time: '15:00:00', show_without_group: true },
   );
   expect(dashboardClassesForDay(data, '2026-08-31').map(item => item.row.id)).toEqual([
     'monday-early',
     'monday-late',
+    'guard-slot',
+    'free-slot',
     'creative-slot',
+    'visible-reading-slot',
   ]);
 });
 

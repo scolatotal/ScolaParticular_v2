@@ -3,21 +3,10 @@ import { useState } from 'react';
 import { Plus, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { rowTitle, type EntityName, type DataRow } from '@/lib/entities';
-import { weekdays } from '@/lib/dates';
+import { isBreakSession, isSupportSession, weekdays } from '@/lib/dates';
 import { useApp } from './provider';
 import { PageHeading, Collection } from './shared';
 import { Modal, RecordDetails } from './editor';
-
-function isSupportSession(name: string) {
-  const normalized = name.trim().toLocaleLowerCase('gl');
-  return /^(gardas?|ld)(?:\s|$)/.test(normalized) ||
-    ['libre disposición', 'polos creativos'].includes(normalized);
-}
-
-function isBreakSession(name: string) {
-  const normalized = name.trim().toLocaleLowerCase('gl');
-  return normalized.includes('recreo') || normalized === 'hora de ler';
-}
 
 export function Schedules() {
   const { data, edit } = useApp();

@@ -430,6 +430,14 @@
   background: #f6fbff;
   border-color: var(--scola-blue);
 }
+.agenda-row.class-row.schedule-support-row,
+.agenda-row.class-row.schedule-support-row:hover {
+  background: #caedfb;
+}
+.agenda-row.class-row.schedule-break-row,
+.agenda-row.class-row.schedule-break-row:hover {
+  background: #f2f2f2;
+}
 .agenda-time {
   display: inline-block;
   border-radius: 5px;

@@ -21,6 +21,8 @@ import {
   agendaForDay,
   dashboardClassesForDay,
   dateLabel,
+  isBreakSession,
+  isSupportSession,
   reminderDue,
   type AgendaItem,
 } from '@/lib/dates';
@@ -45,9 +47,21 @@ export function AgendaList({
         <div className="agenda-list">
           {items.map((item) => {
             const group = data.groups.find((g) => g.id === item.row.group_id);
+            const subjectName = textValue(
+              data.subjects.find((subject) => subject.id === item.row.subject_id),
+              'name',
+            );
+            const classTone =
+              item.kind !== 'Clase'
+                ? ''
+                : isBreakSession(subjectName)
+                  ? ' schedule-break-row'
+                  : isSupportSession(subjectName)
+                    ? ' schedule-support-row'
+                    : '';
             return (
               <button
-                className={`agenda-row ${item.kind === 'Clase' ? 'class-row' : ''}`}
+                className={`agenda-row ${item.kind === 'Clase' ? 'class-row' : ''}${classTone}`}
                 key={item.id}
                 onClick={() => setSelected(item)}
               >
