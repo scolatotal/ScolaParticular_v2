@@ -867,6 +867,97 @@ input[type='file']::file-selector-button {
   font-size: 12px;
   color: #6b7280;
 }
+.attendance-report .panel-heading {
+  margin-bottom: 16px;
+}
+.attendance-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-bottom: 18px;
+  color: #4b5563;
+  font-size: 12px;
+}
+.attendance-legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.attendance-table-wrap {
+  overflow-x: auto;
+  border: 1px dashed var(--scola-blue);
+  border-radius: 12px;
+}
+.attendance-table {
+  width: 100%;
+  min-width: 650px;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13px;
+}
+.attendance-table th,
+.attendance-table td {
+  padding: 13px 16px;
+  border-bottom: 1px dashed #c8dfed;
+  white-space: nowrap;
+}
+.attendance-table tr:last-child > * {
+  border-bottom: 0;
+}
+.attendance-table thead {
+  background: #eaf6fd;
+  color: #225b84;
+}
+.attendance-table tbody th {
+  font-weight: 600;
+  color: #253242;
+}
+.attendance-table tbody tr:hover {
+  background: #f5fbff;
+}
+.attendance-table thead th:not(:first-child),
+.attendance-table td:not(:first-child) {
+  text-align: center;
+}
+.attendance-table th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  min-width: 190px;
+  background: #fff;
+}
+.attendance-table thead th:first-child {
+  z-index: 2;
+  background: #eaf6fd;
+}
+.attendance-table tbody tr:hover th:first-child {
+  background: #f5fbff;
+}
+.attendance-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-width: 27px;
+  min-height: 27px;
+  padding: 3px;
+  border-radius: 7px;
+  vertical-align: middle;
+}
+.attendance-mark-presente { color: #137a47; background: #e5f7ed; }
+.attendance-mark-falta { color: #b42332; background: #fcebed; }
+.attendance-mark-xustificada { color: #1769ad; background: #e6f4ff; }
+.attendance-mark-retraso { color: #a46600; background: #fff3d5; }
+.attendance-mark-unregistered { color: #667085; background: #f0f2f4; }
+.attendance-count {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+.attendance-note {
+  margin: 14px 0 0;
+  color: #667085;
+  font-size: 12px;
+}
 .attendance-list {
   border: 1px solid #e5e7eb;
   border-radius: 12px;
