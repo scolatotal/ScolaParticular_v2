@@ -214,6 +214,9 @@
 .cal-legend i.holiday {
   background: #b2bdc6;
 }
+.cal-legend i.birthday {
+  background: #a45318;
+}
 .cal-week {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -339,6 +342,10 @@
 .cal-holiday {
   --event-color: #8f9ca8;
   --event-bg: #f2f4f6;
+}
+.cal-birthday {
+  --event-color: #a45318;
+  --event-bg: #fff2e5;
 }
 .cal-tutoring {
   --event-color: #318b7a;

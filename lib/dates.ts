@@ -77,6 +77,21 @@ export function schoolCalendarForDay(data: Dataset, day: string, year = '2026/27
  }
  return items;
 }
+export function studentBirthdaysForDay(data: Dataset, day: string): AgendaItem[] {
+ return data.students
+  .filter(row => /^\d{4}-\d{2}-\d{2}$/.test(textValue(row, 'birth_date')) && textValue(row, 'birth_date').slice(5) === day.slice(5))
+  .map(row => ({
+   id: `students-birthday-${row.id}`,
+   title: `Aniversario de ${rowTitle('students', row)}`,
+   kind: 'Aniversario',
+   time: '',
+   endTime: '',
+   location: '',
+   table: 'students' as const,
+   row,
+   readonly: true,
+  }));
+}
 export function calendarForDay(data: Dataset, day: string, year = '2026/27'): AgendaItem[] {
  const personal: AgendaItem[] = data.calendar_events
   .filter(row => eventOccurs(row, day))
@@ -90,7 +105,7 @@ export function calendarForDay(data: Dataset, day: string, year = '2026/27'): Ag
    table: 'calendar_events',
    row,
   }));
- return [...schoolCalendarForDay(data, day, year), ...personal]
+ return [...schoolCalendarForDay(data, day, year), ...studentBirthdaysForDay(data, day), ...personal]
   .sort((a, b) => a.time.localeCompare(b.time));
 }
 export function agendaForDay(data:Dataset,day:string,year='2026/27'):AgendaItem[]{
