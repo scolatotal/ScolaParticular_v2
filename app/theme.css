@@ -803,6 +803,9 @@ input[type='file']::file-selector-button {
 .student-info p > svg {
   color: var(--scola-blue);
 }
+.student-services-grid {
+  margin-top: 24px;
+}
 .filter-bar input.age-filter {
   width: 90px;
   flex: 0 1 90px;
