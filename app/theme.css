@@ -595,6 +595,88 @@ input[type='file']::file-selector-button {
   color: #fff;
   box-shadow: var(--scola-shadow);
 }
+.evaluation-notebook {
+  display: grid;
+  gap: 18px;
+}
+.evaluation-intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 20px 22px;
+  border: 1px dashed var(--scola-field-border);
+  border-radius: 14px;
+  background: #fff;
+}
+.evaluation-intro > div,
+.evaluation-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.evaluation-icon {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--scola-blue);
+  background: #eaf6fd;
+}
+.evaluation-intro h2,
+.evaluation-section-heading h3 {
+  margin: 0;
+  color: #1f2937;
+}
+.evaluation-intro h2 {
+  font-size: 18px;
+}
+.evaluation-intro p,
+.evaluation-section-heading p {
+  margin: 4px 0 0;
+  color: #6b7280;
+  font-size: 13px;
+}
+.evaluation-count {
+  flex: none;
+  padding: 8px 12px;
+  border-radius: 999px;
+  color: var(--scola-blue);
+  background: #eaf6fd;
+  font-size: 12px;
+  font-weight: 700;
+}
+.evaluation-period-tabs {
+  margin-block: 0;
+}
+.evaluation-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.evaluation-section {
+  min-width: 0;
+  padding: 20px;
+  border: 1px dashed var(--scola-field-border);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: var(--scola-shadow);
+}
+.evaluation-section-heading {
+  align-items: flex-start;
+  margin-bottom: 16px;
+  color: var(--scola-blue);
+}
+.evaluation-section-heading h3 {
+  font-size: 15px;
+}
+.evaluation-section .related-section {
+  padding-top: 0;
+}
+.evaluation-section .collection-top {
+  justify-content: flex-end;
+}
 .segmented {
   background: #f9fafb;
   border-color: #eef0f3;
@@ -1635,6 +1717,17 @@ input[type='file']::file-selector-button {
     font-size: 12px;
     padding: 10px;
     flex: 1 1 auto;
+  }
+  .evaluation-intro {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 18px;
+  }
+  .evaluation-columns {
+    grid-template-columns: 1fr;
+  }
+  .evaluation-section {
+    padding: 18px;
   }
   .record-grid,
   .student-grid,

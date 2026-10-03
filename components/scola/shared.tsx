@@ -254,6 +254,8 @@ export function Collection({
                   }
                 >
                   {(table === 'student_contacts' && textValue(row, 'relationship')) ||
+                    (table === 'evaluation_entries' && textValue(row, 'grade')) ||
+                    (table === 'evaluation_rubrics' && textValue(row, 'topic')) ||
                     textValue(row, 'status') ||
                     textValue(row, 'type') ||
                     textValue(row, 'severity') ||
@@ -283,11 +285,13 @@ export function Collection({
                   {textValue(row, 'phone') || 'Sen teléfono indicado'}
                 </p>
               )}
-              {(row.date || row.starts_on) && (
+              {(row.date || row.starts_on || row.assessment_date) && (
                 <p className="record-meta">
                   <Clock size={14} />
                   {dateLabel(
-                    textValue(row, 'date') || textValue(row, 'starts_on'),
+                    textValue(row, 'date') ||
+                      textValue(row, 'starts_on') ||
+                      textValue(row, 'assessment_date'),
                   )}
                   {row.start_time && ` · ${String(row.start_time).slice(0, 5)}`}
                 </p>

@@ -927,6 +927,142 @@
       }
     ]
   },
+  "evaluation_entries": {
+    "label": "Notas de avaliación",
+    "singular": "Nota de avaliación",
+    "titleField": "topic",
+    "fields": [
+      {
+        "name": "student_id",
+        "label": "Alumno/a",
+        "kind": "reference",
+        "ref": "students",
+        "hidden": true,
+        "required": true
+      },
+      {
+        "name": "academic_year",
+        "label": "Curso académico",
+        "kind": "text",
+        "default": "2026/27",
+        "hidden": true,
+        "required": true
+      },
+      {
+        "name": "period",
+        "label": "Avaliación",
+        "kind": "select",
+        "options": [
+          "Avaliación Inicial",
+          "1º Trimestre",
+          "2º Trimestre",
+          "3º Trimestre"
+        ],
+        "default": "Avaliación Inicial",
+        "hidden": true,
+        "required": true
+      },
+      {
+        "name": "subject",
+        "label": "Área ou materia",
+        "kind": "text"
+      },
+      {
+        "name": "topic",
+        "label": "Tema ou evidencia",
+        "kind": "text",
+        "required": true
+      },
+      {
+        "name": "assessment_date",
+        "label": "Data",
+        "kind": "date",
+        "required": true
+      },
+      {
+        "name": "grade",
+        "label": "Cualificación",
+        "kind": "text"
+      },
+      {
+        "name": "notes",
+        "label": "Notas e observacións",
+        "kind": "textarea"
+      }
+    ]
+  },
+  "evaluation_rubrics": {
+    "label": "Rúbricas de avaliación",
+    "singular": "Rúbrica",
+    "titleField": "title",
+    "fields": [
+      {
+        "name": "student_id",
+        "label": "Alumno/a",
+        "kind": "reference",
+        "ref": "students",
+        "hidden": true,
+        "required": true
+      },
+      {
+        "name": "academic_year",
+        "label": "Curso académico",
+        "kind": "text",
+        "default": "2026/27",
+        "hidden": true,
+        "required": true
+      },
+      {
+        "name": "period",
+        "label": "Avaliación",
+        "kind": "select",
+        "options": [
+          "Avaliación Inicial",
+          "1º Trimestre",
+          "2º Trimestre",
+          "3º Trimestre"
+        ],
+        "default": "Avaliación Inicial",
+        "hidden": true,
+        "required": true
+      },
+      {
+        "name": "title",
+        "label": "Título da rúbrica",
+        "kind": "text",
+        "required": true
+      },
+      {
+        "name": "topic",
+        "label": "Tema",
+        "kind": "text",
+        "required": true
+      },
+      {
+        "name": "criteria",
+        "label": "Criterios de avaliación (un por liña)",
+        "kind": "textarea",
+        "required": true
+      },
+      {
+        "name": "performance_levels",
+        "label": "Niveis de desempeño (un por liña)",
+        "kind": "textarea",
+        "default": "Excelente\nAcadado\nEn proceso\nPrecisa apoio",
+        "required": true
+      },
+      {
+        "name": "assessment",
+        "label": "Valoración do alumno/a",
+        "kind": "textarea"
+      },
+      {
+        "name": "notes",
+        "label": "Observacións",
+        "kind": "textarea"
+      }
+    ]
+  },
   "diary_attachments": {
     "label": "Adxuntos",
     "singular": "Adxunto",
