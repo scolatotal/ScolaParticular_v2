@@ -963,31 +963,21 @@
         "required": true
       },
       {
-        "name": "subject",
-        "label": "Área ou materia",
-        "kind": "text"
-      },
-      {
         "name": "topic",
-        "label": "Tema ou evidencia",
+        "label": "Asunto",
         "kind": "text",
         "required": true
+      },
+      {
+        "name": "notes",
+        "label": "Notas e observacións",
+        "kind": "textarea"
       },
       {
         "name": "assessment_date",
         "label": "Data",
         "kind": "date",
         "required": true
-      },
-      {
-        "name": "grade",
-        "label": "Cualificación",
-        "kind": "text"
-      },
-      {
-        "name": "notes",
-        "label": "Notas e observacións",
-        "kind": "textarea"
       }
     ]
   },

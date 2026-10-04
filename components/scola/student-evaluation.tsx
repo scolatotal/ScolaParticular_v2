@@ -33,6 +33,7 @@ export function StudentEvaluation({ student }: { student: DataRow }) {
   };
   const entries = data.evaluation_entries.filter(matchesPeriod);
   const rubrics = data.evaluation_rubrics.filter(matchesPeriod);
+  const showRubrics = period !== 'Avaliación Inicial';
 
   return (
     <section className="evaluation-notebook" aria-labelledby="evaluation-title">
@@ -43,11 +44,17 @@ export function StudentEvaluation({ student }: { student: DataRow }) {
           </span>
           <div>
             <h2 id="evaluation-title">Caderno de avaliación</h2>
-            <p>Curso {academicYear} · organiza notas, evidencias e rúbricas por período.</p>
+            <p>
+              Curso {academicYear} ·{' '}
+              {showRubrics
+                ? 'organiza notas, evidencias e rúbricas por período.'
+                : 'rexistra as notas e observacións da avaliación inicial.'}
+            </p>
           </div>
         </div>
         <span className="evaluation-count">
-          {entries.length} notas · {rubrics.length} rúbricas
+          {entries.length} notas
+          {showRubrics && ` · ${rubrics.length} rúbricas`}
         </span>
       </div>
 
@@ -66,13 +73,16 @@ export function StudentEvaluation({ student }: { student: DataRow }) {
         ))}
       </div>
 
-      <div className="evaluation-columns" role="tabpanel">
+      <div
+        className={`evaluation-columns ${showRubrics ? '' : 'evaluation-columns-single'}`}
+        role="tabpanel"
+      >
         <div className="evaluation-section">
           <div className="evaluation-section-heading">
             <ClipboardCheck size={19} aria-hidden="true" />
             <div>
               <h3>Notas e cualificacións</h3>
-              <p>Rexistra unha cualificación, evidencia ou observación de cada tema.</p>
+              <p>Rexistra o asunto, a data e as notas ou observacións.</p>
             </div>
           </div>
           <Collection
@@ -84,22 +94,24 @@ export function StudentEvaluation({ student }: { student: DataRow }) {
           />
         </div>
 
-        <div className="evaluation-section">
-          <div className="evaluation-section-heading">
-            <BookOpenCheck size={19} aria-hidden="true" />
-            <div>
-              <h3>Rúbricas de avaliación</h3>
-              <p>Define criterios e niveis de desempeño para os diferentes temas.</p>
+        {showRubrics && (
+          <div className="evaluation-section">
+            <div className="evaluation-section-heading">
+              <BookOpenCheck size={19} aria-hidden="true" />
+              <div>
+                <h3>Rúbricas de avaliación</h3>
+                <p>Define criterios e niveis de desempeño para os diferentes temas.</p>
+              </div>
             </div>
+            <Collection
+              compact
+              table="evaluation_rubrics"
+              rows={rubrics}
+              defaults={defaults}
+              hideFilters
+            />
           </div>
-          <Collection
-            compact
-            table="evaluation_rubrics"
-            rows={rubrics}
-            defaults={defaults}
-            hideFilters
-          />
-        </div>
+        )}
       </div>
     </section>
   );
