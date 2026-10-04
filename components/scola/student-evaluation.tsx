@@ -10,16 +10,30 @@ import { useApp } from './provider';
 
 const periods = [
   { value: 'Avaliación Inicial', label: 'Avaliación Inicial' },
-  { value: '1º Trimestre', label: '1º T' },
+  { value: '1º Trimestre', label: '1º Trimestre' },
   { value: '2º Trimestre', label: '2º Trimestre' },
   { value: '3º Trimestre', label: '3º Trimestre' },
 ] as const;
 
+type EvaluationPeriod = (typeof periods)[number]['value'];
+
+function initialEvaluationPeriod(): EvaluationPeriod {
+  if (typeof window === 'undefined') return 'Avaliación Inicial';
+  const requested = new URLSearchParams(window.location.search).get('avaliacion');
+  return periods.some((item) => item.value === requested)
+    ? (requested as EvaluationPeriod)
+    : 'Avaliación Inicial';
+}
+
+function rememberEvaluationPeriod(period: EvaluationPeriod) {
+  const url = new URL(window.location.href);
+  url.searchParams.set('avaliacion', period);
+  window.history.replaceState(window.history.state, '', url);
+}
+
 export function StudentEvaluation({ student }: { student: DataRow }) {
   const { data } = useApp();
-  const [period, setPeriod] = useState<(typeof periods)[number]['value']>(
-    'Avaliación Inicial',
-  );
+  const [period, setPeriod] = useState<EvaluationPeriod>(initialEvaluationPeriod);
   const academicYear = textValue(data.profiles[0], 'academic_year') || '2026/27';
   const matchesPeriod = (row: DataRow) =>
     row.student_id === student.id &&
@@ -66,7 +80,10 @@ export function StudentEvaluation({ student }: { student: DataRow }) {
             role="tab"
             aria-selected={period === item.value}
             className={period === item.value ? 'active' : ''}
-            onClick={() => setPeriod(item.value)}
+            onClick={() => {
+              setPeriod(item.value);
+              rememberEvaluationPeriod(item.value);
+            }}
           >
             {item.label}
           </button>
