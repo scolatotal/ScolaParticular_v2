@@ -2,17 +2,18 @@ import {z} from 'zod';
 import {entities,type EntityName,type Value} from './entities';
 export function entitySchema(table:EntityName){
  const shape:Record<string,z.ZodType>={};
+ const asText=(value:unknown)=>typeof value==='string'||typeof value==='number'||typeof value==='boolean'?String(value):'';
  for(const f of entities[table].fields){
   let schema:z.ZodType;
   if(f.kind==='checkbox')schema=z.boolean();
   else if(f.kind==='weekday')schema=z.coerce.number().int().min(1).max(5);
-  else {let s=z.string().trim().max(['textarea','markdown'].includes(f.kind)?20000:500,'O texto é demasiado longo.');if(f.required)s=s.min(1,'Este campo é obrigatorio.');if(f.kind==='email')s=s.refine(v=>!v||z.email().safeParse(v).success,'Revisa o correo electrónico.');if(f.kind==='url')s=s.refine(v=>!v||/^https?:\/\//i.test(v),'Usa un enderezo http ou https.');if(f.kind==='reference')s=s.refine(v=>!v||z.uuid().safeParse(v).success,'Selecciona unha opción válida.');if(f.kind==='date')s=s.refine(v=>!v||/^\d{4}-\d{2}-\d{2}$/.test(v),'Revisa a data.');if(f.options)s=s.refine(v=>f.options!.includes(v),'Selecciona unha opción válida.');schema=s;}
+  else {let s=z.string().trim().max(['textarea','markdown','richtext'].includes(f.kind)?20000:500,'O texto é demasiado longo.');if(f.required)s=s.min(1,'Este campo é obrigatorio.');if(f.kind==='email')s=s.refine(v=>!v||z.email().safeParse(v).success,'Revisa o correo electrónico.');if(f.kind==='url')s=s.refine(v=>!v||/^https?:\/\//i.test(v),'Usa un enderezo http ou https.');if(f.kind==='reference')s=s.refine(v=>!v||z.uuid().safeParse(v).success,'Selecciona unha opción válida.');if(f.kind==='date')s=s.refine(v=>!v||/^\d{4}-\d{2}-\d{2}$/.test(v),'Revisa a data.');if(f.options)s=s.refine(v=>f.options!.includes(v),'Selecciona unha opción válida.');schema=s;}
   shape[f.name]=schema;
  }
  return z.object(shape).superRefine((v,ctx)=>{
-  if(v.ends_on&&v.starts_on&&String(v.ends_on)<String(v.starts_on))ctx.addIssue({code:'custom',path:['ends_on'],message:'A fin non pode ser anterior ao inicio.'});
-  if(v.end_time&&v.start_time&&String(v.end_time)<=String(v.start_time))ctx.addIssue({code:'custom',path:['end_time'],message:'A hora de fin debe ser posterior ao inicio.'});
-  if(table==='calendar_events'&&v.recurrence!=='Non se repite'&&(!v.repeat_until||String(v.repeat_until)<String(v.starts_on)))ctx.addIssue({code:'custom',path:['repeat_until'],message:'Indica unha data de fin válida para a repetición.'});
+  if(v.ends_on&&v.starts_on&&asText(v.ends_on)<asText(v.starts_on))ctx.addIssue({code:'custom',path:['ends_on'],message:'A fin non pode ser anterior ao inicio.'});
+  if(v.end_time&&v.start_time&&asText(v.end_time)<=asText(v.start_time))ctx.addIssue({code:'custom',path:['end_time'],message:'A hora de fin debe ser posterior á de inicio.'});
+  if(table==='calendar_events'&&v.recurrence!=='Non se repite'&&(!v.repeat_until||asText(v.repeat_until)<asText(v.starts_on)))ctx.addIssue({code:'custom',path:['repeat_until'],message:'Indica unha data de fin válida para a repetición.'});
   if(table==='calendar_events'&&!v.all_day&&(!v.start_time||!v.end_time))ctx.addIssue({code:'custom',path:['start_time'],message:'Indica tanto a hora de inicio como a de fin.'});
  }) as z.ZodType<Record<string,Value>>;
 }

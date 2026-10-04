@@ -971,7 +971,7 @@
       {
         "name": "notes",
         "label": "Notas e observacións",
-        "kind": "textarea"
+        "kind": "richtext"
       },
       {
         "name": "assessment_date",

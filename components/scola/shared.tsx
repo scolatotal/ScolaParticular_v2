@@ -30,6 +30,7 @@ import {
 import { dateLabel } from '@/lib/dates';
 import { useApp } from './provider';
 import { RecordDetails, DeleteButton } from './editor';
+import { RichText } from './rich-text';
 const pageIcons = {
   alumnado: Users,
   faltas: ClipboardCheck,
@@ -312,13 +313,22 @@ export function Collection({
                   {data.groups.find((g) => g.id === row.group_id)?.name}
                 </p>
               )}
-              <p className="record-excerpt">
-                {textValue(row, 'content') ||
-                  textValue(row, 'description') ||
-                  textValue(row, 'notes') ||
-                  textValue(row, 'topics') ||
-                  textValue(row, 'agenda')}
-              </p>
+              {table === 'evaluation_entries' ? (
+                textValue(row, 'notes') && (
+                  <RichText
+                    value={row.notes}
+                    className="record-excerpt record-excerpt-full"
+                  />
+                )
+              ) : (
+                <p className="record-excerpt">
+                  {textValue(row, 'content') ||
+                    textValue(row, 'description') ||
+                    textValue(row, 'notes') ||
+                    textValue(row, 'topics') ||
+                    textValue(row, 'agenda')}
+                </p>
+              )}
             </article>
           ))}
         </div>
