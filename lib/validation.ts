@@ -7,7 +7,7 @@ export function entitySchema(table:EntityName){
   let schema:z.ZodType;
   if(f.kind==='checkbox')schema=z.boolean();
   else if(f.kind==='weekday')schema=z.coerce.number().int().min(1).max(5);
-  else {let s=z.string().trim().max(['textarea','markdown','richtext'].includes(f.kind)?20000:500,'O texto é demasiado longo.');if(f.required)s=s.min(1,'Este campo é obrigatorio.');if(f.kind==='email')s=s.refine(v=>!v||z.email().safeParse(v).success,'Revisa o correo electrónico.');if(f.kind==='url')s=s.refine(v=>!v||/^https?:\/\//i.test(v),'Usa un enderezo http ou https.');if(f.kind==='reference')s=s.refine(v=>!v||z.uuid().safeParse(v).success,'Selecciona unha opción válida.');if(f.kind==='date')s=s.refine(v=>!v||/^\d{4}-\d{2}-\d{2}$/.test(v),'Revisa a data.');if(f.options)s=s.refine(v=>f.options!.includes(v),'Selecciona unha opción válida.');schema=s;}
+  else {let s=z.string().trim().max(['textarea','markdown','richtext'].includes(f.kind)?20000:500,'O texto é demasiado longo.');if(f.required)s=s.min(1,'Este campo é obrigatorio.');if(table==='students'&&f.name==='last_name')s=s.refine(v=>/^[\p{L}]\.( [\p{L}]\.)*$/u.test(v),'Usa só as iniciais dos apelidos, por exemplo F. R.');if(f.kind==='email')s=s.refine(v=>!v||z.email().safeParse(v).success,'Revisa o correo electrónico.');if(f.kind==='url')s=s.refine(v=>!v||/^https?:\/\//i.test(v),'Usa un enderezo http ou https.');if(f.kind==='reference')s=s.refine(v=>!v||z.uuid().safeParse(v).success,'Selecciona unha opción válida.');if(f.kind==='date')s=s.refine(v=>!v||/^\d{4}-\d{2}-\d{2}$/.test(v),'Revisa a data.');if(f.options)s=s.refine(v=>f.options!.includes(v),'Selecciona unha opción válida.');schema=s;}
   shape[f.name]=schema;
  }
  return z.object(shape).superRefine((v,ctx)=>{

@@ -215,7 +215,7 @@
       },
       {
         "name": "last_name",
-        "label": "Apelidos",
+        "label": "Iniciais dos apelidos",
         "kind": "text",
         "required": true
       },
@@ -225,11 +225,6 @@
         "kind": "reference",
         "ref": "groups",
         "required": true
-      },
-      {
-        "name": "birth_date",
-        "label": "Data de nacemento",
-        "kind": "date"
       },
       {
         "name": "phone",

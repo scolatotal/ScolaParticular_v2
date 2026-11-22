@@ -24,7 +24,6 @@ import {
   Rows3,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { AppLink as Link } from './app-link';
 import {
   calendarForDay,
   dateLabel,
@@ -47,7 +46,6 @@ const categories = [
   'Calendario escolar',
   'Conmemoración',
   'Non lectivo',
-  'Aniversario',
   'Eventos propios',
 ];
 const dayKey = (date: Date) => format(date, 'yyyy-MM-dd');
@@ -56,9 +54,7 @@ const tone = (item: AgendaItem) =>
     ? 'commem'
     : item.kind === 'Non lectivo'
       ? 'holiday'
-      : item.kind === 'Aniversario'
-        ? 'birthday'
-      : 'personal';
+    : 'personal';
 
 function CalendarEvent({
   item,
@@ -106,7 +102,7 @@ function CalendarDayEvents({
   ) : (
     <Empty
       title="Non hai datas sinaladas neste día"
-      description="Aquí aparecerán as datas do calendario escolar, os aniversarios do alumnado e os eventos que crees."
+      description="Aquí aparecerán as datas do calendario escolar e os eventos que crees."
     />
   );
 }
@@ -204,7 +200,7 @@ export function CalendarView() {
       </header>
       <section
         className="cal-surface"
-        aria-label="Calendario escolar, aniversarios e eventos propios"
+        aria-label="Calendario escolar e eventos propios"
       >
         <nav className="cal-view-tabs" aria-label="Vistas da axenda">
           {modes.map(({ name, icon: Icon }) => (
@@ -303,10 +299,6 @@ export function CalendarView() {
                 <span>
                   <i className="holiday" />
                   Non lectivo
-                </span>
-                <span>
-                  <i className="birthday" />
-                  Aniversario
                 </span>
               </div>
             </div>
@@ -483,7 +475,7 @@ export function CalendarView() {
       {selectedDay && (
         <Modal
           title={dateLabel(selectedDay, "EEEE, d 'de' MMMM")}
-          description="Datas do calendario escolar, aniversarios e eventos propios deste día."
+          description="Datas do calendario escolar e eventos propios deste día."
           onClose={() => setSelectedDay(null)}
         >
           <CalendarDayEvents
@@ -492,15 +484,7 @@ export function CalendarView() {
           />
         </Modal>
       )}
-      {opened?.kind === 'Aniversario' && (
-        <Modal title={opened.title} onClose={() => setOpened(null)}>
-          <p>Data de nacemento: {dateLabel(String(opened.row.birth_date), "d 'de' MMMM")}</p>
-          <Link className="outline-link" href={`/alumnado/${opened.row.id}`} onClick={() => setOpened(null)}>
-            Ver a ficha do alumno/a
-          </Link>
-        </Modal>
-      )}
-      {opened && opened.kind !== 'Aniversario' && (
+      {opened && (
         <RecordDetails
           table={opened.table}
           row={opened.row}

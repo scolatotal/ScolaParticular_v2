@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
-import { agendaForDay, classesForDay, dashboardClassesForDay, schoolCalendarForDay, calendarForDay, studentBirthdaysForDay } from '../lib/dates';
+import { agendaForDay, classesForDay, dashboardClassesForDay, schoolCalendarForDay, calendarForDay } from '../lib/dates';
 import { emptyDataset } from '../lib/entities';
+import { entitySchema } from '../lib/validation';
 
 // Pure data tests: no browser, credentials or database records are used.
 function timetable() {
@@ -166,30 +167,19 @@ test('created events appear alongside official dates without importing timetable
   expect(classesForDay(data, '2026-09-09')).toHaveLength(1);
 });
 
-test('student birthdays appear yearly as their own agenda category without creating events', () => {
-  const data = timetable();
-  data.calendar_events = [{ id: 'visit', title: 'Visita ao museo', type: 'Actividade', starts_on: '2026-09-09', ends_on: '2026-09-09' }];
-  data.students = [
-    { id: 'student-one', first_name: 'Uxía', last_name: 'Pérez', birth_date: '2017-09-09', group_id: 'group' },
-    { id: 'student-two', first_name: 'Antón', last_name: 'López', birth_date: '2017-09-10', group_id: 'group' },
-    { id: 'student-three', first_name: 'Iria', last_name: 'Rúa', birth_date: null, group_id: 'group' },
-  ];
-  const before = structuredClone(data);
-  const birthdays = studentBirthdaysForDay(data, '2026-09-09');
-  expect(birthdays.map(item => [item.id, item.title, item.kind, item.table])).toEqual([
-    ['students-birthday-student-one', 'Aniversario de Uxía Pérez', 'Aniversario', 'students'],
-  ]);
-  expect(calendarForDay(data, '2026-09-09').map(item => item.id)).toEqual([
-    'school_calendar_events-start', 'students-birthday-student-one', 'calendar_events-visit',
-  ]);
-  expect(calendarForDay(data, '2027-09-09', '2027/28').map(item => item.id)).toEqual(['students-birthday-student-one']);
-  expect(calendarForDay(data, '2026-09-10').map(item => item.id)).toEqual(['students-birthday-student-two']);
-  expect(data).toEqual(before);
-});
-
-test('29 February birthdays appear only on leap days', () => {
-  const data = timetable();
-  data.students = [{ id: 'leap-student', first_name: 'Noa', last_name: 'Vila', birth_date: '2016-02-29', group_id: 'group' }];
-  expect(studentBirthdaysForDay(data, '2027-02-28')).toEqual([]);
-  expect(studentBirthdaysForDay(data, '2028-02-29')).toHaveLength(1);
+test('student records accept surname initials but reject full surnames', () => {
+  const base = {
+    first_name: 'Uxía',
+    group_id: '11111111-1111-4111-8111-111111111111',
+    phone: '',
+    emergency_phone: '',
+    competency_project: 'Sen indicar',
+    school_transport: 'Sen indicar',
+    school_meals: 'Sen indicar',
+    relevant_info: '',
+    notes: '',
+    photo_path: '',
+  };
+  expect(entitySchema('students').safeParse({ ...base, last_name: 'P. R.' }).success).toBe(true);
+  expect(entitySchema('students').safeParse({ ...base, last_name: 'Pérez Roca' }).success).toBe(false);
 });

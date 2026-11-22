@@ -4,7 +4,6 @@ import {type DataRow,type Dataset,type EntityName,textValue,rowTitle} from './en
 export const today=()=>format(new Date(),'yyyy-MM-dd');
 export const dateLabel=(day:string,pattern='d MMM yyyy')=>day?format(parseISO(day),pattern,{locale:gl}):'Sen data';
 export const weekdays=['Luns','Martes','Mércores','Xoves','Venres','Sábado','Domingo'];
-export function age(birth:string,day=today()){if(!birth)return null;const b=parseISO(birth),d=parseISO(day);let n=d.getFullYear()-b.getFullYear();if(d.getMonth()<b.getMonth()||(d.getMonth()===b.getMonth()&&d.getDate()<b.getDate()))n--;return n;}
 export function eventOccurs(row:DataRow,day:string):boolean {
  const start=textValue(row,'starts_on'),end=textValue(row,'ends_on')||start;if(!start||day<start)return false;
  if(day>=start&&day<=end)return true;
@@ -77,21 +76,6 @@ export function schoolCalendarForDay(data: Dataset, day: string, year = '2026/27
  }
  return items;
 }
-export function studentBirthdaysForDay(data: Dataset, day: string): AgendaItem[] {
- return data.students
-  .filter(row => /^\d{4}-\d{2}-\d{2}$/.test(textValue(row, 'birth_date')) && textValue(row, 'birth_date').slice(5) === day.slice(5))
-  .map(row => ({
-   id: `students-birthday-${row.id}`,
-   title: `Aniversario de ${rowTitle('students', row)}`,
-   kind: 'Aniversario',
-   time: '',
-   endTime: '',
-   location: '',
-   table: 'students' as const,
-   row,
-   readonly: true,
-  }));
-}
 export function calendarForDay(data: Dataset, day: string, year = '2026/27'): AgendaItem[] {
  const personal: AgendaItem[] = data.calendar_events
   .filter(row => eventOccurs(row, day))
@@ -105,7 +89,7 @@ export function calendarForDay(data: Dataset, day: string, year = '2026/27'): Ag
    table: 'calendar_events',
    row,
   }));
- return [...schoolCalendarForDay(data, day, year), ...studentBirthdaysForDay(data, day), ...personal]
+ return [...schoolCalendarForDay(data, day, year), ...personal]
   .sort((a, b) => a.time.localeCompare(b.time));
 }
 export function agendaForDay(data:Dataset,day:string,year='2026/27'):AgendaItem[]{
